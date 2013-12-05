@@ -1,0 +1,12 @@
+<form action="giftsuggestion.php" method="post">
+    <fieldset>
+        <! Take text input for username.>
+        <div class="form-group">
+            <input autofocus class="form-control" name="keywords" placeholder="Keyword" type="text"/>
+        </div>
+        <! Sumbit form.>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </fieldset>
+</form>
