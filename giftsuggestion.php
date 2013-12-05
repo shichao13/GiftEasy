@@ -99,7 +99,7 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
       $comparetitle = $searcharray[$j];
       if($current->ItemAttributes->Title == $comparetitle)
       {
-        $displayedinfo = 1;
+        $displayedinfo++;
         print_r("<td><fontsize='-1'><b>".$current->ItemAttributes->Title."</b>");
                 if (isset($current->ItemAttributes->Title)) 
                 {
@@ -117,12 +117,10 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
     }
   }
   
-  if($displayedinfo == 0)
-  {
-    nomatcheserror($parsed_xml);
-  }
+  $numberremain = 10 - $displayedinfo;
+  nomatcheserror($parsed_xml, $numberremain);
 }
-function nomatcheserror($parsed_xml)
+function nomatcheserror($parsed_xml, $numberremain)
 {
     print_r("No Matches Between Bestselling and Relevance were Found<br>");
     $Operation = "ItemSearch";
@@ -167,13 +165,14 @@ $Sig = str_replace('=','%3D',$Sig);
 $params['Operation']=$Operation;
 $params['SearchIndex']=$SearchIndex;
 $params['Keywords']=$Keywords;
-$params['ResponseGroup']=$ResponseGroup;  
+  //$params['ResponseGroup']=$ResponseGroup;  
   $response = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
   //$response = file_get_contents($request);
   $parsed_xml = simplexml_load_string($response);
   
   print_r("<table>");
   $numOfItems = 0;
+  $covered = 0;
   foreach($parsed_xml->Items->Item as $counting)
           {
             $numOfItems = $numOfItems + 1;
@@ -182,6 +181,9 @@ $params['ResponseGroup']=$ResponseGroup;
   {
      foreach($parsed_xml->Items->Item as $current)
              {
+               if($covered <= $numberremain)
+               {
+               $covered++;
                print_r("<td><font size='-1'><b>".$current->ItemAttributes->Title."</b>");
           if (isset($current->ItemAttributes->Title)) 
           {
@@ -195,6 +197,7 @@ $params['ResponseGroup']=$ResponseGroup;
           {
             print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
           }
+             }
              } 
   }
 }
@@ -246,7 +249,7 @@ $Sig = str_replace('=','%3D',$Sig);
 $params['Operation']=$Operation;
 $params['SearchIndex']=$SearchIndex;
 $params['Keywords']=$Keywords;
-$params['ResponseGroup']=$ResponseGroup;
+  //$params['ResponseGroup']=$ResponseGroup;
 $params['ItemPage']=$i;
   if ($i != 1)
   {
@@ -289,4 +292,3 @@ else
 $determine = 1;
 $j=6;
 ItemSearch($SearchIndex, $Keywords, $j, $determine);
-?>
