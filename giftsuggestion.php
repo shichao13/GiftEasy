@@ -6,7 +6,8 @@ include('aws_signed_request.php');
 define("Access_Key_ID", "AKIAIMCFHBE6JELLM3JQ");
 define("SECRET_KEY","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");
 
-
+//mySQL table is called 'Search Results'
+//INSERT INTO 'Search Results' VALUES (title, author, price, reviews)
   
 function compareprintSearchResults($parsed_xml, $parsed_xmltwo, $SearchIndex)
 {
@@ -100,7 +101,7 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
       if($current->ItemAttributes->Title == $comparetitle)
       {
         $displayedinfo++;
-        print_r("<td><fontsize='-1'><b>".$current->ItemAttributes->Title."</b>");
+        /*print_r("<td><fontsize='-1'><b>".$current->ItemAttributes->Title."</b>");
                 if (isset($current->ItemAttributes->Title)) 
                 {
                     print_r("<br>Title: ".$current->ItemAttributes->Title);
@@ -113,6 +114,8 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
                 {
                 print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
                 }
+        */
+        $query = query(INSERT INTO 'Search Results' VALUES ($current->$ItemAttributes->Title, $current->$ItemAttributes->$Author, $current->Offers->Offer->Price->FormattedPrice, "None"));
       }
     }
   }
@@ -184,6 +187,7 @@ $params['Keywords']=$Keywords;
                if($covered <= $numberremain)
                {
                $covered++;
+               /*
                print_r("<td><font size='-1'><b>".$current->ItemAttributes->Title."</b>");
           if (isset($current->ItemAttributes->Title)) 
           {
@@ -197,6 +201,8 @@ $params['Keywords']=$Keywords;
           {
             print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
           }
+          */
+          $query = query(INSERT INTO 'Search Results' VALUES ($current->$ItemAttributes->Title, $current->$ItemAttributes->$Author, $current->Offers->Offer->Price->FormattedPrice, "None"));
              }
              } 
   }
