@@ -1,0 +1,34 @@
+<head>
+        <title>Gift Easy</title>
+</head>
+
+<body style="text-align: center;">
+        <h1>Search for a gift now!</h1>
+<form action="giftsuggestion.php" method="post">
+    <fieldset>
+        <! Take text input for username.>
+        <div class="form-group">
+            <input autofocus class="form-control" name="keywords" placeholder="Interests and Hobbies" type="text"/>
+            <br/>
+            <input name="gender" type="radio" value="F"/> Female
+            <input name="gender" type="radio" value="M"/> Male
+            <br/>
+            Age:
+            <select name="age">
+                <option value=""></option>
+                <option value="1">Baby</option>
+                <option value="2">8-15</option>
+                <option value="3">16-22</option>
+                <option value="4">23-40</option>
+                <option value="5">40-65</option>
+                <option value="6">65+</option>
+            </select>
+        </div>
+        
+        <! Submit form.>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </fieldset>
+</form>
+</body>
