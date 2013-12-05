@@ -49,6 +49,8 @@ function aws_signed_request($region, $params, $public_key, $private_key, $associ
     if ($associate_tag !== NULL) {
         $params['AssociateTag'] = $associate_tag;
     }
+    $params['AssociateTag'] = "HELLOMICHAELMA";
+    
     
     // sort the parameters
     ksort($params);
