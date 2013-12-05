@@ -115,7 +115,8 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
                 print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
                 }
         */
-        $query = query(INSERT INTO 'Search Results' VALUES ($current->$ItemAttributes->Title, $current->$ItemAttributes->$Author, $current->Offers->Offer->Price->FormattedPrice, "None"));
+        $review = 0.00;
+        $query = query(INSERT INTO 'Search Results' VALUES ((string)$current->$ItemAttributes->Title, (string)$current->$ItemAttributes->$Author, (float)$current->Offers->Offer->Price->FormattedPrice, $review));
       }
     }
   }
@@ -202,7 +203,8 @@ $params['Keywords']=$Keywords;
             print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
           }
           */
-          $query = query(INSERT INTO 'Search Results' VALUES ($current->$ItemAttributes->Title, $current->$ItemAttributes->$Author, $current->Offers->Offer->Price->FormattedPrice, "None"));
+          $review = 0.00;
+          $query = query(INSERT INTO 'Search Results' VALUES ((string)$current->$ItemAttributes->Title, (string)$current->$ItemAttributes->$Author, (float)$current->Offers->Offer->Price->FormattedPrice, $review));
              }
              } 
   }
@@ -298,3 +300,4 @@ else
 $determine = 1;
 $j=6;
 ItemSearch($SearchIndex, $Keywords, $j, $determine);
+?>
