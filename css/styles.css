@@ -33,15 +33,14 @@
     margin: 20px;
 }
 
-body 
-{
-background-color:#b0c4de;
-background-attachment:fixed;
-}
+p.italic {font-style:italic;}
 
 input 
 {
     width:300px;
     border:2px solid #000;
 }
+
+p 
+{font-size:1em;} /* 14px/16=0.875em */
 
