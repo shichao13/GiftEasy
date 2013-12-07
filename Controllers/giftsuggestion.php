@@ -6,23 +6,6 @@ include('aws_signed_request.php');
 define("Access_Key_ID", "AKIAIMCFHBE6JELLM3JQ");
 define("SECRET_KEY","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"); 
 
-// Code Begins!
-session_start();
-
-// Number of pages we are looking at from amazon
-$j=6;
-
-// Defining the arrays of titles (just the strings)
-$relevancearray = array();
-$bestsellarray = array();
-
-// The two arrays that will be full of XML documents
-$relevancexml = array();
-$bestsellxml = array();
-
-// Main function - looking for items
-ItemSearch($SearchIndex, $Keywords, $j);
-
 function pulltitles($ourxml)
 {
   // Initialize our output array
@@ -144,6 +127,14 @@ function ItemSearch($SearchIndex, $Keywords, $j)
   // Other user input not related to age
   $Keywords = $_POST["keywords"];
 
+  // Defining the arrays of titles (just the strings)
+  $relevancearray = array();
+  $bestsellarray = array();
+
+  // The two arrays that will be full of XML documents
+  $relevancexml = array();
+  $bestsellxml = array();
+
   // Define Parameters Matrix
   $params['Operation']=$Operation;
   $params['SearchIndex']=$SearchIndex;
@@ -164,10 +155,10 @@ function ItemSearch($SearchIndex, $Keywords, $j)
   for($i = 0; $i < $j; $i++)
   {
     //Which Item Page are we on?
-    $params['ItemPage']=$i;
+    $params['ItemPage']=$i+1;
 
     // If it isn't the first one, then we don't want sort to be in it
-    if ($i != 1)
+    if ($i != 0)
     {
       unset($params['Sort']);
     }
@@ -189,5 +180,14 @@ function ItemSearch($SearchIndex, $Keywords, $j)
   printtitles($relevancexml, $bestsellarray, $j);
 
 }
+
+// Code Begins!
+session_start();
+
+// Number of pages we are looking at from amazon
+$j=6;
+
+// Main function - looking for items
+ItemSearch($SearchIndex, $Keywords, $j);
 
 ?>
