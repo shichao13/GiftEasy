@@ -32,3 +32,16 @@
     /* surround with whitespace */
     margin: 20px;
 }
+
+body 
+{
+background-color:#b0c4de;
+background-attachment:fixed;
+}
+
+input 
+{
+    width:300px;
+    border:2px solid #000;
+}
+

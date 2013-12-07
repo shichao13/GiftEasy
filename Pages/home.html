@@ -14,74 +14,58 @@
     <script src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery.tagger.min.js"></script>
     <link rel="stylesheet" href="//secure.newdream.net/singlepage/_assets/css/site.css" />
-    <link href="css/styles.scss" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 
-    <style>
-    body 
-    {
-    background-color:#b0c4de;
-    background-attachment:fixed;
-    }
 
-    input 
-    {
-        width:300px;
-        border:2px solid #000;
-    }
-
-    </style>
 
 </head>
 
 <body style="text-align: center;">
-        <h1 style="font-family:catull regular;">Gift Easy</h1>
+    <h1 style="font-family:normal;">Gift Easy</h1>
+    <br>
+    <h2 style="font-family:normal;">Let us find you the perfect gift! 
         <br>
-        <h2 style="font-family:catull regular;">Let us find you the perfect gift! 
-            <br>
-            Please describe the person whom you are giving it to!</h2>
-<form action="/Controllers/giftsuggestion.php" method="post">
-    <fieldset>
-        <! Take text input for username.>
-        <div class="form-group">
-            <input autofocus style='input' class="form-control" name="keywords" placeholder="Interests and Hobbies" type="text"/>
-            <script type="text/javascript">
-                jQuery("#test").tagger({
+        Please describe the person whom you are giving it to!</h2>
+    
+    <form action="/Controllers/giftsuggestion.php" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input id="test" autofocus style="input" class="form-control" name="keywords" placeholder="Interests and Hobbies" type="text"/>
+                <script type="text/javascript">
+                    jQuery("#test").tagger({
                         colorFunction:function(label)
                         {
                             var randomColor = Math.random()*16777215;
                             return {font:"#" + Math.floor(randomColor).toString(16), background:"#" + Math.floor(16777215 - randomColor).toString(16)};  
                         }
-                });
-            </script>  
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <input name="gender" type="radio" value="F"/> Female
-            <input name="gender" type="radio" value="M"/> Male
-            <br/>
-            <br/>
-            <br/>
-            Age:
-            <select name="age">
-                <option value=""></option>
-                <option value="1">Baby</option>
-                <option value="2">8-15</option>
-                <option value="3">16-22</option>
-                <option value="4">23-40</option>
-                <option value="5">40-65</option>
-                <option value="6">65+</option>
-            </select>
-        </div>
-            <br/>
-            <br/>
-        <! Submit form.>
-        <form class="form-search input-append" id="form">
-
-            <button type="submit" class="btn btn-default">Search</button>
-        </form>
-    </fieldset>
-</form>
-
+                    });
+                </script>  
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <input {font-size: 1em;} name="gender" type="radio" value="F"/> Female
+                <input name="gender" type="radio" value="M"/> Male
+                <br/>
+                <br/>
+                <br/>
+                Age:
+                <select name="age">
+                    <option value=""></option>
+                    <option value="1">Baby</option>
+                    <option value="2">8-15</option>
+                    <option value="3">16-22</option>
+                    <option value="4">23-40</option>
+                    <option value="5">40-65</option>
+                    <option value="6">65+</option>
+                </select>
+            </div>
+                <br/>
+                <br/>
+            <form class="form-search input-append" id="form">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </fieldset>
+    </form>
 </body>
 </html>
