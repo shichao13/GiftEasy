@@ -131,12 +131,12 @@ function nomatcheserror($relevancexml, $numberremain)
 }
   
 //Set up the operation in the request
-function ItemSearch($SearchIndex, $Keywords, $j)
+function OldItemSearch($SearchIndex, $Keywords, $j)
 {
   // Set parameters that will not change over time
   $Operation = "ItemSearch";
   $Version = "2011-08-01";
-  $ResponseGroup = "ItemAttributes,Offers";
+  $ResponseGroup = "ItemAttributes";
 
   // From the input, which age group are we looking at?
   if ($_POST["age"] == 1)
@@ -169,7 +169,7 @@ function ItemSearch($SearchIndex, $Keywords, $j)
   $params['Operation']=$Operation;
   $params['SearchIndex']=$SearchIndex;
   $params['Keywords']=$Keywords;
-  $params['MerchantId']='All';
+  $params['ResponseGroup']= $ResponseGroup;
 
   // Make userinfo into a superglobal
   $_SESSION['AmazonCategory'] = $SearchIndex;
@@ -197,7 +197,7 @@ function ItemSearch($SearchIndex, $Keywords, $j)
     // Create a response with proper signatures using the other function, get from Amazon
     $response = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
     array_push($relevancexml, simplexml_load_string($response));
-
+    print_r($relevancexml[$i]->Items->Item->OfferSummary->LowestNewPrice->FormattedPrice);
     // Create a second response with the sort on bestseller instead
     $params['Sort'] = $Sort;
     $responsetwo = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
@@ -219,7 +219,7 @@ session_start();
 $j=2;
 
 // Main function - looking for items
-ItemSearch($SearchIndex, $Keywords, $j);
+OldItemSearch($SearchIndex, $Keywords, $j);
 $items = array($_SESSION['Title'], $_SESSION['Author'], $_SESSION['Price'], $_SESSION['Review']);
 render("Pages/resultspage.html", ["items" => $items, "pagetitle" => "Search Results"]);
 ?>
