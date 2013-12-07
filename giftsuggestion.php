@@ -357,5 +357,8 @@ session_start();
 $Keywords = $_POST["keywords"];
 $determine = 1;
 $j=6;
+
+$relevancexml = array();
+$bestsellxml = array();
 ItemSearch($SearchIndex, $Keywords, $j, $determine);
 ?>
