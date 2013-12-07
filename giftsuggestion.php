@@ -116,15 +116,27 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
                 }
         */
         $review = 0.00;
-        $query = query(INSERT INTO 'Search Results' VALUES ((string)$current->$ItemAttributes->Title, (string)$current->$ItemAttributes->$Author, (float)$current->Offers->Offer->Price->FormattedPrice, $review));
+        $query = sprintf("INSERT INTO Results VALUES (%i, %s, %s, %.2f, %.2f)", 
+        $displayedinfo, 
+        (string)$current->$ItemAttributes->Title, 
+        (string)$current->$ItemAttributes->$Author, 
+        (float)$current->Offers->Offer->Price->FormattedPrice, 
+        $review);
+
+        $result = mysql_query($query);
+        if (!result) 
+        {
+            $message = 'Invalid query: '. mysql_error() . "<br>";
+            print_r($message);
+        }
       }
     }
   }
   
   $numberremain = 10 - $displayedinfo;
-  nomatcheserror($parsed_xml, $numberremain);
+  nomatcheserror($parsed_xml, $numberremain, $displayedinfo);
 }
-function nomatcheserror($parsed_xml, $numberremain)
+function nomatcheserror($parsed_xml, $numberremain, $displayedinfo)
 {
     print_r("No Matches Between Bestselling and Relevance were Found<br>");
     $Operation = "ItemSearch";
@@ -204,7 +216,21 @@ $params['Keywords']=$Keywords;
           }
           */
           $review = 0.00;
-          $query = query(INSERT INTO 'Search Results' VALUES ((string)$current->$ItemAttributes->Title, (string)$current->$ItemAttributes->$Author, (float)$current->Offers->Offer->Price->FormattedPrice, $review));
+          $displayedinfo++;
+          $query = sprintf("INSERT INTO Results VALUES (%i, %s, %s, %.2f, %.2f)", 
+          $displayedinfo, 
+          (string)$current->$ItemAttributes->Title, 
+          (string)$current->$ItemAttributes->$Author, 
+          (float)$current->Offers->Offer->Price->FormattedPrice, 
+          $review);
+
+          $result = mysql_query($query);
+          if (!result) 
+          {
+              $message = 'Invalid query: '. mysql_error() . "<br>";
+              print_r($message);
+          }
+
              }
              } 
   }
