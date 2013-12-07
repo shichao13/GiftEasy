@@ -1,8 +1,6 @@
 /**
  * styles.css
  *
- * Computer Science 50
- * Problem Set 7
  *
  * Global CSS.
  */
@@ -13,15 +11,6 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-}
-
-#middle .form-control
-{
-    /* center form controls */
-    display: inline-block;
-
-    /* override Bootstrap's 100% width for form controls */
-    width: auto;
 }
 
 #bottom
@@ -86,16 +75,17 @@ ul.tagit {
     color: #339;
 }
 
-html {
-background-color: #cddadf;
-background-image: -webkit-gradient(radial,50% 50%,0,50% 50%,200,from(#cddadf),to(#f9fafb));
-background-image: -webkit-radial-gradient(50% 50%,#f9fafb,#cddadf);
-background-image: -moz-radial-gradient(50% 50%,#f9fafb,#cddadf);
-background-image: -o-radial-gradient(50% 50%,#f9fafb,#cddadf);
-background-image: -ms-radial-gradient(50% 50%,#f9fafb,#cddadf);
-background-image: radial-gradient(50% 50%,#f9fafb,#cddadf);
-background-repeat: no-repeat;
-min-height: 100%;
+html, body 
+{
+    background-color: #cddadf;
+    background-image: -webkit-gradient(radial,50% 50%,0,50% 50%,200,from(#cddadf),to(#f9fafb));
+    background-image: -webkit-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: -moz-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: -o-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: -ms-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-repeat: no-repeat;
+    min-height: 100%;
 }
 
 
