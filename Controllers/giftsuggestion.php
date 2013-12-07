@@ -65,14 +65,14 @@ function printtitles($relevancexml, $searcharray, $j)
         $comparetitle = $searcharray[$k];
 
         // If they are the same, then...
-        if($current->ItemAttributes->Title == $comparetitle)
+        if((string)$current->ItemAttributes->Title == $comparetitle)
         {
           // We have found an extra term!
           $displayedinfo++;
 
           // Push these arrays onto the superglobal for the next page
-          array_push($_SESSION['Title'], (string)$current->$ItemAttributes->Title);
-          array_push($_SESSION['Author'], (string)$current->$ItemAttributes->$Author); 
+          array_push($_SESSION['Title'], (string)$current->ItemAttributes->Title);
+          array_push($_SESSION['Author'], (string)$current->ItemAttributes->Author); 
           array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
           array_push($_SESSION['Review'], $review);
         }
@@ -94,14 +94,6 @@ function nomatcheserror($relevancexml, $numberremain)
   foreach($relevancexml[0]->Items->Item as $counting)
   {
     $numOfItems = $numOfItems + 1;
-  }
-
-  $j = 0;
-  for($i = 0; $i < 10000000000000000; $i++)
-  {
-    $query = $relevancexml[$i];
-    $j++;
-    print_r($j."<br>");
   }
 
   // Assuming that something bad happened:
