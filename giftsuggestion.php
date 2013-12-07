@@ -115,6 +115,8 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
                 print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
                 }
         */
+        /*
+        // old query stuff
         $review = 0.00;
         $query = sprintf("INSERT INTO Results VALUES (%i, %s, %s, %.2f, %.2f)", 
         $displayedinfo, 
@@ -129,6 +131,11 @@ function printtitles($parsed_xml, $searcharray, $i, $j)
             $message = 'Invalid query: '. mysql_error() . "<br>";
             print_r($message);
         }
+        */
+        array_push($_SESSION['Title'], (string)$current->$ItemAttributes->Title);
+        array_push($_SESSION['Author'], (string)$current->$ItemAttributes->$Author); 
+        array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
+        array_push($_SESSION['Review'], $review);
       }
     }
   }
@@ -156,7 +163,7 @@ else
 {
   $SearchIndex = "All";
 }
-$Keywords = $_POST["keywords"];
+
 /*
 $Time = date("c");
 $Sig = base64_encode(hash_hmac('sha256', $Operation.$Time, SECRET_KEY, true));
@@ -215,6 +222,8 @@ $params['Keywords']=$Keywords;
             print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
           }
           */
+          /*
+          // old query stuff
           $review = 0.00;
           $displayedinfo++;
           $query = sprintf("INSERT INTO Results VALUES (%i, %s, %s, %.2f, %.2f)", 
@@ -230,6 +239,12 @@ $params['Keywords']=$Keywords;
               $message = 'Invalid query: '. mysql_error() . "<br>";
               print_r($message);
           }
+          */
+
+          array_push($_SESSION['Title'], (string)$current->$ItemAttributes->Title);
+          array_push($_SESSION['Author'], (string)$current->$ItemAttributes->$Author); 
+          array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
+          array_push($_SESSION['Review'], $review);
 
              }
              } 
@@ -238,9 +253,6 @@ $params['Keywords']=$Keywords;
   
 //Set up the operation in the request
 function ItemSearch($SearchIndex, $Keywords, $j, $determine){
-for($i = 1; $i<=$j; $i++)
-{
-//Set the values for some of the parameters
 $Operation = "ItemSearch";
 $Version = "2011-08-01";
 $ResponseGroup = "ItemAttributes,Offers";
@@ -259,6 +271,27 @@ else
   $SearchIndex = "All";
 }
 $Keywords = $_POST["keywords"];
+
+// Define Parameters Matrix
+$params['Operation']=$Operation;
+$params['SearchIndex']=$SearchIndex;
+$params['Keywords']=$Keywords;
+
+// Make userinfo into a superglobal
+$_SESSION['AmazonCategory'] = $SearchIndex;
+$_SESSION['Keywords'] = $Keywords;
+$_SESSION['Gender'] = $_POST['gender'];
+
+//array of results
+$_SESSION['Title'] = array();
+$_SESSION['Author'] = array();
+$_SESSION['Price'] = array();
+$_SESSION['Review'] = array();
+
+for($i = 1; $i<=$j; $i++)
+{
+//Set the values for some of the parameters
+
 /*
 $Time = date("c");
 $Sig = base64_encode(hash_hmac('sha256', $Operation.$Time, SECRET_KEY, true));
@@ -279,10 +312,7 @@ $Sig = str_replace('=','%3D',$Sig);
    . "&ResponseGroup=" . $ResponseGroup;
  */
 
-// Define Parameters Matrix
-$params['Operation']=$Operation;
-$params['SearchIndex']=$SearchIndex;
-$params['Keywords']=$Keywords;
+
   //$params['ResponseGroup']=$ResponseGroup;
 $params['ItemPage']=$i;
   if ($i != 1)
@@ -323,6 +353,8 @@ else
 }
 }
 
+session_start();
+$Keywords = $_POST["keywords"];
 $determine = 1;
 $j=6;
 ItemSearch($SearchIndex, $Keywords, $j, $determine);
