@@ -197,7 +197,13 @@ function OldItemSearch($SearchIndex, $Keywords, $j)
     // Create a response with proper signatures using the other function, get from Amazon
     $response = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
     array_push($relevancexml, simplexml_load_string($response));
-    print_r($relevancexml[$i]->Items->Item->OfferSummary->LowestNewPrice->FormattedPrice);
+    
+    // Bugtesting Print Function
+    //print_r($relevancexml[$i]->Items->Item->OfferSummary->LowestNewPrice->FormattedPrice);
+    $test = array("Hello", "No");
+    print_r((int)$test);
+    print_r("<br>MICHAELMAHELLO<br>");
+
     // Create a second response with the sort on bestseller instead
     $params['Sort'] = $Sort;
     $responsetwo = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
