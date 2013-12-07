@@ -6,6 +6,31 @@ include('aws_signed_request.php');
 define("Access_Key_ID", "AKIAIMCFHBE6JELLM3JQ");
 define("SECRET_KEY","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"); 
 
+function render($template, $values = [])
+      {
+          // if template exists, render it
+          if (file_exists("../$template"))
+          {
+              // extract variables into local scope
+              extract($values);
+
+              // render header
+              require("../Pages/header.html");
+
+              // render template
+              require("../$template");
+
+              // render footer
+              require("../Pages/footer.html");
+          }
+
+          // else err
+          else
+          {
+              trigger_error("Invalid template: $template", E_USER_ERROR);
+          }
+      }
+
 function pulltitles($ourxml)
 {
   // Initialize our output array
@@ -56,7 +81,7 @@ function printtitles($relevancexml, $searcharray, $j)
   }
   
   // Find out how many 
-  $numberremain = 10 - $displayedinfo;
+  $numberremain = $maximumpage - $displayedinfo;
   nomatcheserror($relevancexml, $numberremain);
 }
 
@@ -69,6 +94,14 @@ function nomatcheserror($relevancexml, $numberremain)
   foreach($relevancexml[0]->Items->Item as $counting)
   {
     $numOfItems = $numOfItems + 1;
+  }
+
+  $j = 0;
+  for($i = 0; $i < 10000000000000000; $i++)
+  {
+    $query = $relevancexml[$i];
+    $j++;
+    print_r($j."<br>");
   }
 
   // Assuming that something bad happened:
@@ -85,14 +118,14 @@ function nomatcheserror($relevancexml, $numberremain)
     foreach ($relevancexml[0]->Items->Item as $current)
     {
       // If we haven't outputted too many
-      if($covered <= $numOfItems)
+      if($numOfItems <= $numberremain)
       {
         // +1!
-        $covered++;
+        $numOfItems++;
 
         // Push onto our superglobal for other pages to use
-        array_push($_SESSION['Title'], (string)$current->$ItemAttributes->Title);
-        array_push($_SESSION['Author'], (string)$current->$ItemAttributes->$Author); 
+        array_push($_SESSION['Title'], (string)$current->ItemAttributes->Title);
+        array_push($_SESSION['Author'], (string)$current->ItemAttributes->Author); 
         array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
         array_push($_SESSION['Review'], $review);
       }
@@ -185,9 +218,15 @@ function ItemSearch($SearchIndex, $Keywords, $j)
 session_start();
 
 // Number of pages we are looking at from amazon
-$j=6;
+$j=2;
+
+// Maximum number of pages
+$maximumpage = 10;
 
 // Main function - looking for items
 ItemSearch($SearchIndex, $Keywords, $j);
-
+        print_r($_SESSION['Title']);
+        print_r("<br>HELLOMICHAELMA<br>");
+$items = array($_SESSION['Title'], $_SESSION['Author'], $_SESSION['Price'], $_SESSION['Review']);
+render("Pages/resultspage.html", ["items" => $items, "pagetitle" => "Search Results"]);
 ?>
