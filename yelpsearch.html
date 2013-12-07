@@ -1,5 +1,48 @@
+
 <html> 
-<head> 
+<head>
+  <script type="text/javascript">    
+    //declare namespace
+    var yoh = {};
+    
+    //array to hold yelp markers
+    var yelp = [];
+
+    //trace function for debugging
+    function trace(message) 
+    { 
+        if (typeof console != 'undefined') 
+        {
+            console.log(message);
+        }
+    }
+    
+    //function to get data from YELP
+    yoh.getYelp = function(term)
+    {
+      $.getJSON('http://api.yelp.com/business_review_search?lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&limit=20&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+term+'&callback=?',
+          function(data)
+          {
+              $.each(data.businesses, function(i,item){
+                  trace(item);
+                  infowindowcontent = '<strong>'+item.name+'</strong><br>';
+                  infowindowcontent += '<img src="'+item.photo_url+'"><br>';
+                  infowindowcontent += '<a href="'+item.url+'" target="_blank">see it on yelp</a>';
+                  
+                  yoh.createYelpMarker(i,item.latitude,item.longitude,item.name, infowindowcontent);
+              });                         
+          }
+      );
+    }
+
+    //Function that gets run when the document loads
+    yoh.initialize = function()
+    {
+      yoh.getYelp('basketball'+' store');
+    }
+  </script>
+</head>
+
 <title>Yelp Search</title> 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
 <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
@@ -13,16 +56,14 @@ var auth = {
   consumerKey: "E2_7dmQUi4vdRUhTawnE1g", 
   consumerSecret: "XOxn5kI0jP4b1tlnpU8DW_V8dKs",
   accessToken: "FmC9Hf29PramokOZnuE5WdbHbnUEWmsv",
-  // This example is a proof of concept, for how to use the Yelp v2 API with javascript.
-  // You wouldn't actually want to expose your access token secret like this in a real application.
   accessTokenSecret: "7M1Mq3vUaDm_X3z0nT0SqfEKBsc",
   serviceProvider: { 
     signatureMethod: "HMAC-SHA1"
   }
 };
 
-var terms = 'food';
-var near = 'San+Francisco';
+var terms = KEYTERM;
+var near = LOCATION;
 
 var accessor = {
   consumerSecret: auth.consumerSecret,
@@ -39,7 +80,7 @@ parameters.push(['oauth_token', auth.accessToken]);
 parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
 
 var message = { 
-  'action': 'http://www.yelp.com/v2/search',
+  'action': 'http://api.yelp.com/v2/search',
   'method': 'GET',
   'parameters': parameters 
 };
@@ -69,12 +110,17 @@ $.ajax({
 
 
         <h1>Yelp Search</h1>
-        <form action="https://www.yelp.com/v2/search?limit=5&find_desc=&find_loc=" method="get">
-            <input name="term" type="text"/>
-            <input name="term" type="text"/>
+        <form action="https://api.yelp.com/v2/search?limit=5&term=&location=" method="get">
+            <input name="find_desc" type="text"/>
+            <input name="find_loc  " type="text"/>
             <br/>
             <input type="submit" value="Yelp Search"/>
         </form>
+
+print(name, rating_img_url, image_url); 
+
+
+
 
 </body>
 </html>
