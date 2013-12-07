@@ -22,7 +22,7 @@
     <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
     <script>
         $(function(){
-            var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+            var sampleTags = ['golf', 'sports', 'tennis', 'music', 'piano', 'doll', 'lego', 'bike', 'ball', 'swimming', 'hiking', 'cooking', 'cello', 'clarinet', 'singing', 'book', 'reading', 'game', 'electronics', 'mp3', 'movies'];
             //-------------------------------
             // Allow spaces without quotes.
             //-------------------------------
@@ -38,7 +38,7 @@
 
 <body style="text-align: center;">
     <img border="0" src="Pages/giftlogo.gif" alt="Logo" width="150" height="188">
-    <p style="font-family:arvo;" class="italic">
+    <p class="italic">
     "Bro, do you even gift?"</p>
     <h2 style="font-family:arvo;">
         <br>
@@ -49,17 +49,14 @@
     <form action="/Controllers/giftsuggestion.php" method="post">
         <fieldset>
             <div class="form-group">
-                <input id="allowSpacesTags" autofocus style="input" class="form-control" name="keywords" placeholder="Interests and Hobbies">
+                <h3>Interests or Hobbies</h3>
+                <input id="allowSpacesTags" autofocus style="input" class="form-control" name="keywords">
                 <br/>
                 <br/>
+                <input name="gender" type="radio" value="F"/><h3>Female</h3>
+                <input name="gender" type="radio" value="M"/><h3>Male</h3>
                 <br/>
-                <br/>
-                <input name="gender" type="radio" value="F"/> <p>Female</p>
-                <input name="gender" type="radio" value="M"/> <p>Male</p>
-                <br/>
-                <br/>
-                <br/>
-                <p>Age:</p>
+                <h3>Age:</h3>
                 <select name="age">
                     <option value=""></option>
                     <option value="1">Baby</option>

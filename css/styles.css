@@ -35,11 +35,24 @@
 
 p.italic {font-style:italic;}
 
-p 
-{font-size:1em;} /* 14px/16=0.875em */
+p
+{
+    font-size:1em;
+    font-family: arvo;
+} 
+
+h3
+{
+    font-size:1.5em;
+    font-family: arvo;
+} 
 
 ul.tagit {
     width: 50%;
-    margin: auto;
+    position:relative;
+    left:25%;
 }
 
+#el01 {
+width: 100px;
+}
