@@ -6,13 +6,30 @@ include('aws_signed_request.php');
 define("Access_Key_ID", "AKIAIMCFHBE6JELLM3JQ");
 define("SECRET_KEY","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"); 
 
-function pulltitles($parsed_xml)
+// Code Begins!
+session_start();
+
+// Number of pages we are looking at from amazon
+$j=6;
+
+// Defining the arrays of titles (just the strings)
+$relevancearray = array();
+$bestsellarray = array();
+
+// The two arrays that will be full of XML documents
+$relevancexml = array();
+$bestsellxml = array();
+
+// Main function - looking for items
+ItemSearch($SearchIndex, $Keywords, $j);
+
+function pulltitles(&$ourxml)
 {
   // Initialize our output array
   $output = array();
 
   // Find output!
-  foreach($parsed_xml->Items->Item as $current)
+  foreach($ourxml->Items->Item as $current)
   {
       array_push($output, (string)$current->ItemAttributes->Title);
   }
@@ -62,26 +79,42 @@ function printtitles(&$relevancexml, $searcharray, $j)
 
 function nomatcheserror(&$relevancexml, $numberremain)
 {
+  // How many items are in our xml? If there are 0, something happened
   $numOfItems = 0;
-  foreach($parsed_xml->Items->Item as $counting)
+
+  // The loop
+  foreach($relevancexml[0]->Items->Item as $counting)
+  {
+    $numOfItems = $numOfItems + 1;
+  }
+
+  // Assuming that something bad happened:
+  if($numOfItems == 0)
+  {
+    print_r("ERROR HAPPENED. NUMBER OF XML ITEMS IN RELEVANCE IS 0");
+  }
+  else
+  {
+    // This now represents how many items we have outputted onto the page
+    $numOfItems = 0;
+
+    // For each of the most relevant ones, we put onto the output
+    foreach ($relevancexml[0]->Items->Item as $current)
     {
-      $numOfItems = $numOfItems + 1;
-    }
-  if($numOfItems >0)
-    {
-      $numOfItems = 0;
-      foreach ($parsed_xml->Items->Item as $current)
+      // If we haven't outputted too many
+      if($covered <= $numOfItems)
       {
-        if($covered <= $numOfItems)
-        {
-          $covered++;
-          array_push($_SESSION['Title'], (string)$current->$ItemAttributes->Title);
-          array_push($_SESSION['Author'], (string)$current->$ItemAttributes->$Author); 
-          array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
-          array_push($_SESSION['Review'], $review);
-        }
-      } 
-    }
+        // +1!
+        $covered++;
+
+        // Push onto our superglobal for other pages to use
+        array_push($_SESSION['Title'], (string)$current->$ItemAttributes->Title);
+        array_push($_SESSION['Author'], (string)$current->$ItemAttributes->$Author); 
+        array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
+        array_push($_SESSION['Review'], $review);
+      }
+    } 
+  }
 }
   
 //Set up the operation in the request
@@ -128,7 +161,7 @@ function ItemSearch($SearchIndex, $Keywords, $j)
   $_SESSION['Review'] = array();
 
   // Begin iterating over number of pages
-  for($i = 1; $i<=$j; $i++)
+  for($i = 0; $i < $j; $i++)
   {
     //Which Item Page are we on?
     $params['ItemPage']=$i;
@@ -149,23 +182,12 @@ function ItemSearch($SearchIndex, $Keywords, $j)
     array_push($bestsellxml, simplexml_load_string($responsetwo));
 
     // Start pulling titles into the total titles array
-    $relevancearray = array_merge($relevancearray, pulltitles($parsed_xml));
-    $bestsellarray = array_merge($bestsellarray, pulltitles($parsed_xmltwo));
+    $relevancearray = array_merge($relevancearray, pulltitles(&$relevancexml[$i]));
+    $bestsellarray = array_merge($bestsellarray, pulltitles(&$bestsellxml[$i]));
   }
     
   printtitles(&$relevancexml, $bestsellarray, $j);
 
 }
 
-session_start();
-$determine = 1;
-$j=6;
-
-// Defining the arrays of titles
-$relevancearray = array();
-$bestsellarray = array();
-
-$relevancexml = array();
-$bestsellxml = array();
-ItemSearch($SearchIndex, $Keywords, $j, $determine);
 ?>
