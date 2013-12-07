@@ -516,8 +516,8 @@ function MultiNodeSearch($Id)
     		// Finding all the information we need
     		array_push($output['Title'], (string)$current->ItemAttributes->Title);
     		array_push($output['Department']), (string)$current->ItemAttributes->ProductGroup);
-			array_push($output['Image']), (string)$current->LargeImage->URL);
-			array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+			  array_push($output['Image']), (string)$current->LargeImage->URL);
+			  array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
     	}
 
     	// Overall information
@@ -530,6 +530,7 @@ function MultiNodeSearch($Id)
     return $output;
 }
 
+// Searches by node ID with keywords, only allows for one keyword
 function KeyNodeSearch($Node, $Keyword)
 {
     // Define Parameters we need
@@ -571,6 +572,7 @@ function KeyNodeSearch($Node, $Keyword)
     return $output;
 }
 
+// Makes sure that an array doesn't have two of the same word
 function RedundantCheck($Keywords)
 {
 	// Length of total input and initialize output
@@ -600,6 +602,13 @@ function RedundantCheck($Keywords)
 	}
 
 	return $output;
+}
+
+function ToSession($output)
+{
+  $_SESSION['Title'] = $output['Title'];
+  $_SESSION['Price'] = $output['Price'];
+  $_SESSION['Image'] = $output['Image'];
 }
 
 ?>
