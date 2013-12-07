@@ -73,13 +73,17 @@ function printtitles($relevancexml, $searcharray, $j)
           // Push these arrays onto the superglobal for the next page
           array_push($_SESSION['Title'], (string)$current->ItemAttributes->Title);
           array_push($_SESSION['Author'], (string)$current->ItemAttributes->Author); 
-          array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
+          array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price); 
           array_push($_SESSION['Review'], $review);
         }
       }
     }
   }
   
+
+  // Maximum number of pages
+  $maximumpage = 10;
+
   // Find out how many 
   $numberremain = $maximumpage - $displayedinfo;
   nomatcheserror($relevancexml, $numberremain);
@@ -115,10 +119,11 @@ function nomatcheserror($relevancexml, $numberremain)
         // +1!
         $numOfItems++;
 
+        print_r($current->Offers);
         // Push onto our superglobal for other pages to use
         array_push($_SESSION['Title'], (string)$current->ItemAttributes->Title);
-        array_push($_SESSION['Author'], (string)$current->ItemAttributes->Author); 
-        array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price->FormattedPrice); 
+        array_push($_SESSION['Author'], (string)$current->ItemAttributes->ListPrice); 
+        array_push($_SESSION['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice); 
         array_push($_SESSION['Review'], $review);
       }
     } 
@@ -164,6 +169,7 @@ function ItemSearch($SearchIndex, $Keywords, $j)
   $params['Operation']=$Operation;
   $params['SearchIndex']=$SearchIndex;
   $params['Keywords']=$Keywords;
+  $params['MerchantId']='All';
 
   // Make userinfo into a superglobal
   $_SESSION['AmazonCategory'] = $SearchIndex;
@@ -212,13 +218,8 @@ session_start();
 // Number of pages we are looking at from amazon
 $j=2;
 
-// Maximum number of pages
-$maximumpage = 10;
-
 // Main function - looking for items
 ItemSearch($SearchIndex, $Keywords, $j);
-        print_r($_SESSION['Title']);
-        print_r("<br>HELLOMICHAELMA<br>");
 $items = array($_SESSION['Title'], $_SESSION['Author'], $_SESSION['Price'], $_SESSION['Review']);
 render("Pages/resultspage.html", ["items" => $items, "pagetitle" => "Search Results"]);
 ?>
