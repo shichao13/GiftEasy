@@ -45,13 +45,13 @@
         <div class="form-group">
             <input autofocus style='input' class="form-control" name="keywords" placeholder="Interests and Hobbies" type="text"/>
             <script type="text/javascript">
-                    jQuery("#test").tagger({
-                            colorFunction:function(label){
-                                    var randomColor = Math.random()*16777215;
-                                    return {font:"#" + Math.floor(randomColor).toString(16), background:"#" + Math.floor(16777215 - randomColor).toString(16)};
-                                  
-                            }
-                    });
+                jQuery("#test").tagger({
+                        colorFunction:function(label)
+                        {
+                            var randomColor = Math.random()*16777215;
+                            return {font:"#" + Math.floor(randomColor).toString(16), background:"#" + Math.floor(16777215 - randomColor).toString(16)};  
+                        }
+                });
             </script>  
             <br/>
             <br/>
@@ -83,17 +83,5 @@
     </fieldset>
 </form>
 
-<p>Insert any comma separated text:</p>
-                <input type="text" name="test" id="test" />
-                <script type="text/javascript">
-                        jQuery("#test").tagger({
-                                colorFunction:function(label){
-                                        var randomColor = Math.random()*16777215;
-                                        return {font:"#" + Math.floor(randomColor).toString(16), background:"#" + Math.floor(16777215 - randomColor).toString(16)};
-                                      
-                                }
-                        });
-                </script>  
-  
 </body>
 </html>
