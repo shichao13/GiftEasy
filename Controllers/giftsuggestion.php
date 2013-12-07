@@ -23,7 +23,7 @@ $bestsellxml = array();
 // Main function - looking for items
 ItemSearch($SearchIndex, $Keywords, $j);
 
-function pulltitles(&$ourxml)
+function pulltitles($ourxml)
 {
   // Initialize our output array
   $output = array();
@@ -38,7 +38,7 @@ function pulltitles(&$ourxml)
 return $output;
 }
 
-function printtitles(&$relevancexml, $searcharray, $j)
+function printtitles($relevancexml, $searcharray, $j)
 {
   // How many have we currently found?
   $displayedinfo = 0;
@@ -47,7 +47,7 @@ function printtitles(&$relevancexml, $searcharray, $j)
   $length = count($searcharray);
 
   // Go through all of the text and determine if we have found matches
-  for ($i = 0, $i<$j, $i++)
+  for ($i = 0; $i<$j; $i++)
   {
     foreach($relevancexml[$i]->Items->Item as $current)
     {
@@ -74,10 +74,10 @@ function printtitles(&$relevancexml, $searcharray, $j)
   
   // Find out how many 
   $numberremain = 10 - $displayedinfo;
-  nomatcheserror(&$relevancexml, $numberremain);
+  nomatcheserror($relevancexml, $numberremain);
 }
 
-function nomatcheserror(&$relevancexml, $numberremain)
+function nomatcheserror($relevancexml, $numberremain)
 {
   // How many items are in our xml? If there are 0, something happened
   $numOfItems = 0;
@@ -182,11 +182,11 @@ function ItemSearch($SearchIndex, $Keywords, $j)
     array_push($bestsellxml, simplexml_load_string($responsetwo));
 
     // Start pulling titles into the total titles array
-    $relevancearray = array_merge($relevancearray, pulltitles(&$relevancexml[$i]));
-    $bestsellarray = array_merge($bestsellarray, pulltitles(&$bestsellxml[$i]));
+    $relevancearray = array_merge($relevancearray, pulltitles($relevancexml[$i]));
+    $bestsellarray = array_merge($bestsellarray, pulltitles($bestsellxml[$i]));
   }
     
-  printtitles(&$relevancexml, $bestsellarray, $j);
+  printtitles($relevancexml, $bestsellarray, $j);
 
 }
 
