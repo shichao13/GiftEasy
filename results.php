@@ -1,3 +1,6 @@
+<html>
+<link rel="stylesheet" href="//secure.newdream.net/singlepage/_assets/css/site.css" />
+
 <?php
 
 	function render($template, $values = [])
@@ -31,3 +34,4 @@
 
 ?>
 
+</html>
