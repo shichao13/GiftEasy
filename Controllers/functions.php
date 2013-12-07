@@ -11,6 +11,80 @@ define("SECRET_KEY","PGKAUCkEraUBFxrNFoBTf5dhE8LSFNEm+Pq1oxAd");
 define("Operation", "ItemSearch");
 define("Version", "2011-08-01");
 
+function PrintCompareResults($parsed_xml, $parsed_xmltwo, $SearchIndex)
+{
+  // Start the HTML file to format the results
+  print_r("<table>");
+
+  // Make sure that each of the xml files have items in them
+  $numOfItems = 0;
+  $secOfItems = 0;
+
+  // The loops for this making sure (relevance)
+  foreach($parsed_xml->Items->Item as $counting)
+  {
+       $numOfItems = $numOfItems + 1;
+  }
+  
+  // Similar loop for best selling category
+  foreach($parsed_xmltwo->Items->Item as $counting)
+  {
+       $secOfItems = $secOfItems + 1;
+  }
+
+  if($numOfItems>0 && $secOfItems>0)
+  {
+  	// Print out the total number of items that we are printing - used for bugtesting
+  	// Remove in final implementation
+    print_r($numOfItems." ".$secOfItems);
+
+    // Compare the two of them - if they are the same, output
+    foreach($parsed_xmltwo->Items->Item as $compare)
+    {
+      foreach($parsed_xml->Items->Item as $current)
+      {
+      	// both are simple_xml format, so we don't need to recast
+        if ($current->ItemAttributes->Title == $compare->ItemAttributes->Title)
+        {
+          // HTML formatting!
+          print_r("<td><font size='-1'><b>".$current->ItemAttributes->Title."</b>");
+          
+          // Make sure that a title exists
+          if (isset($current->ItemAttributes->Title)) 
+          {
+            print_r("<br>Title: ".$current->ItemAttributes->Title);
+          } 
+
+          // Make sure that an author exists (it won't for most things)
+          elseif(isset($current->ItemAttributes->Author)) 
+          {
+            print_r("<br>Author: ".$current->ItemAttributes->Author);
+          } 
+
+          // Use offers to grab price. This may not work if you have not grabbed offers
+          elseif(isset($current->Offers->Offer->Price->FormattedPrice))
+          {
+            print_r("<br>Price:".$current->Offers->Offer->Price->FormattedPrice);
+          }
+          
+          // Otherwise, we didn't find anything for this item
+          else
+          {
+            print_r("<center>Error: Unknown XML Format</center>");
+          }
+        }
+      }
+    }
+  }
+  else
+  {
+     print_r("Error: There are no items that match the search results!");
+     print_r("<br>".$numOfItems);
+     print_r("<br>".$secOfItems);
+  }
+}  
+
+
 function FullItemSearch($SearchIndex, $Keywords)
 {
     // Define Parameters we need
