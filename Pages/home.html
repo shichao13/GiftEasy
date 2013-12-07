@@ -13,8 +13,13 @@
 
     <script src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery.tagger.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/tag-it.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="//secure.newdream.net/singlepage/_assets/css/site.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+    <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -31,7 +36,17 @@
     <form action="/Controllers/giftsuggestion.php" method="post">
         <fieldset>
             <div class="form-group">
-                <input id="test" autofocus style="input" class="form-control" name="keywords" placeholder="Interests and Hobbies" type="text"/>
+                <script type="text/javascript">
+                    $(document).ready(function() 
+                    {
+                        $("#myTags").tagit();
+                    });
+                </script>
+
+                <input id="myTags" autofocus style="input" class="form-control" name="keywords" placeholder="Interests and Hobbies">
+
+
+
                 <script type="text/javascript">
                     jQuery("#test").tagger({
                         colorFunction:function(label)
