@@ -34,7 +34,7 @@
             placeholderText   : null,   // Sets `placeholder` attr on input field.
             readOnly          : false,  // Disables editing.
             removeConfirmation: false,  // Require confirmation to remove tags.
-            tagLimit          : null,   // Max number of tags allowed (null for unlimited).
+            tagLimit          : 3,   // Max number of tags allowed (null for unlimited).
 
             // Used for autocomplete, unless you override `autocomplete.source`.
             availableTags     : [],
@@ -49,7 +49,7 @@
             showAutocompleteOnFocus: false,
 
             // When enabled, quotes are unneccesary for inputting multi-word tags.
-            allowSpaces: false,
+            allowSpaces: true,
 
             // The below options are for using a single field instead of several
             // for our form values.
