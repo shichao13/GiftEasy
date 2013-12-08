@@ -5,67 +5,13 @@
   <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
   <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
   <script type="text/javascript" src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
-  <script type="text/javascript">
-  var auth = { 
-    //
-    // Update with your auth tokens.
-    //
-    consumerKey: "E2_7dmQUi4vdRUhTawnE1g", 
-    consumerSecret: "XOxn5kI0jP4b1tlnpU8DW_V8dKs",
-    accessToken: "FmC9Hf29PramokOZnuE5WdbHbnUEWmsv",
-    accessTokenSecret: "7M1Mq3vUaDm_X3z0nT0SqfEKBsc",
-    serviceProvider: { 
-      signatureMethod: "HMAC-SHA1"
-    }
-  };
+  <script type="text/javascript" src="http://yohman.bol.ucla.edu/jquery-1.5.2.min.js"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-  var terms = KEYTERM;
-  var near = LOCATION;
-
-  var accessor = {
-    consumerSecret: auth.consumerSecret,
-    tokenSecret: auth.accessTokenSecret
-  };
-
-  parameters = [];
-  parameters.push(['term', terms]);
-  parameters.push(['location', near]);
-  parameters.push(['callback', 'cb']);
-  parameters.push(['oauth_consumer_key', auth.consumerKey]);
-  parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
-  parameters.push(['oauth_token', auth.accessToken]);
-  parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
-
-  var message = { 
-    'action': 'http://api.yelp.com/v2/search',
-    'method': 'GET',
-    'parameters': parameters 
-  };
-
-  OAuth.setTimestampAndNonce(message);
-  OAuth.SignatureMethod.sign(message, accessor);
-
-  var parameterMap = OAuth.getParameterMap(message.parameters);
-  parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
-  console.log(parameterMap);
-
-  $.ajax({
-    'url': message.action,
-    'data': parameterMap,
-    'cache': true,
-    'dataType': 'jsonp',
-    'jsonpCallback': 'cb',
-    'success': function(data, textStats, XMLHttpRequest) {
-      console.log(data);
-      var output = prettyPrint(data);
-      $("body").append(output);
-    }
-  });
   </script><meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     
     <style type="text/css">
-        html { height: 100% }
-        body { 
+        html, body { 
           height: 100%; 
           margin: 0px; 
           padding: 0px;
@@ -88,11 +34,6 @@
           font-family: arvo;
         } 
     </style>
-  
-  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>    
-  <!-- jQuery -->
-  <script type="text/javascript" src="http://yohman.bol.ucla.edu/jquery-1.5.2.min.js"></script>
-
   <script type="text/javascript">    
     //declare namespace
     var yoh = {};
@@ -166,7 +107,6 @@
     //Function that gets run when the document loads
     yoh.initialize = function()
     {
-      geocoder = new google.maps.Geocoder();
       var latlng = new google.maps.LatLng(42.3744, -71.1169);
       var myOptions = {
           zoom: 15,
