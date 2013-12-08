@@ -740,27 +740,68 @@ function GetGiftUserData()
     array_push($output['Error'], "Relation");
   }
 
+  // Get the traits from our input
+  if (isset($_POST['traits']))
+  {
+    array_push($output['Traits'], $_POST['traits']);
+  }
+
   return $output;
 }
 
 // Pulls Node ID array from mySQL, or return array with 400 in it
-function PullNodeId($trait, $person)
+function PullNodeId($trait, $person, $NodeMap)
 {
+  $length = count($NodeMap['Name']);
+  $index = 400;
   if ($trait == 'Trendy' || $trait == 'DIY' || $trait == 'Professional')
   {
-  $query = sprintf("SELECT * FROM nodes WHERE description = %s", 
-                    $trait.$person);
-  $output = mysql_query($query);
+    for ($i = 0; $i < $length; $i++)
+    {
+      if ((string)$NodeMap['Name'][$i] == (string)$trait.$person)
+      {
+        $index = $i;
+      }
+    }
   }
   else
   {
-  $query = sprintf("SELECT * FROM nodes WHERE description = %s", 
-                    $trait);
-  $output = mysql_query($query);
+    for ($i = 0; $i < $length; $i++)
+    {
+      if ((string)$NodeMap['Name'][$i] == $trait)
+      {
+        $index = $i;
+        print_r($i);
+      }
+    }
   }
-  print_r($output);
-  print_r("<br><br><br>");
 
+  $output = array();
+
+  // Filling the array. If an earlier one is 0, a later one is too, so we use else ifs
+  if ($NodeMap['First'][$index] != 0)
+  {
+    array_push($output, $NodeMap['First'][$index]);
+  }
+  else if ($NodeMap['Second'][$index] != 0)
+  {
+    array_push($output, $NodeMap['Second'][$index]);
+  }
+  else if ($NodeMap['Third'][$index] != 0)
+  {
+    array_push($output, $NodeMap['Third'][$index]);
+  }
+  else if ($NodeMap['Fourth'][$index] != 0)
+  {
+    array_push($output, $NodeMap['Fourth'][$index]);
+  }
+  
+  return $output;
+  // In case we want to use mySQL later
+  /*
+  $query = sprintf("SELECT * FROM nodes WHERE description = %s", 
+                    $trait.$person);
+  $output = mysql_query($query);
   if($output == FALSE)
   {
     print_r("ERROR: Incorrect Query");
@@ -774,7 +815,6 @@ function PullNodeId($trait, $person)
       array_push($nodeid, $output[$i]);
     }
   }
-
   if(count($output) == 0)
   {
     $error = array(400);
@@ -784,6 +824,7 @@ function PullNodeId($trait, $person)
   {
     return $output;
   }
+  */
 }
 
 function CondenseOutput($KeyOutput)
@@ -835,5 +876,65 @@ function CondenseOutput($KeyOutput)
 
   return $output;
 }
+
+/**
+ * Loading in Node Information
+ */
+function LoadNodes($filename='../Controllers/OnlineFilter.csv', $delimiter=',', $reverse=1)
+{
+    if(!file_exists($filename) || !is_readable($filename))
+    {
+      print_r("ERROR: File is not readable");
+      $error = 400;
+      return $error;
+    }
+
+    $header = NULL;
+    $nodes = array();
+    if (($handle = fopen($filename, 'r')) !== FALSE)
+    {
+        while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
+        {
+            if(!$header)
+                $header = $row;
+            else
+                $nodes[] = array_combine($header, $row);
+        }
+        fclose($handle);
+    }
+
+    // Do we need to reverse the structure of this?
+    if ($reverse == 1)
+    {
+      // Figure out how long we should be iterating over
+      $length = count($nodes);
+
+      // Set up all of the output arrays that we need
+      $output['Name'] = array();
+      $output['First'] = array();
+      $output['Second'] = array();
+      $output['Third'] = array();
+      $output['Fourth'] = array();
+
+      // Iterate over the array
+      for ($i = 0; $i < $length; $i++)
+      {
+        // Pushing all of the current values in the inner dimension to the outer
+        array_push($output['Name'], $nodes[$i]['description']);
+        array_push($output['First'], $nodes[$i]['n1']);
+        array_push($output['Second'], $nodes[$i]['n2']);
+        array_push($output['Third'], $nodes[$i]['n3']);
+        array_push($output['Fourth'], $nodes[$i]['n4']);
+      }
+
+      return $output;
+
+    }
+    else
+    {
+      return $nodes;
+    }
+}
+
 
 ?>

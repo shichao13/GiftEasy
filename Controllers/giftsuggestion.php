@@ -9,8 +9,9 @@ include('functions.php');
 // Code Begins!
 session_start();
 
-//print_r($_POST['traits']);
+// Get data for our program
 $UserData = GetGiftUserData();
+$NodeData = LoadNodes();
 
 $SearchIndex = "All";
 
@@ -19,8 +20,8 @@ if (isset($UserData['Traits']) && isset($UserData['Person']))
   $NodeOutput = array();
   foreach ($UserData['Traits'] as $trait)
   {
-    $nodevec = PullNodeId($trait, $UserData['Person']);
-    if ($nodevec != 400)
+    $nodevec = PullNodeId($trait, $UserData['Person'], $NodeData);
+    if (count($nodevec) != 0)
     {
       array_push($NodeOutput, MultiNodeSearch($nodevec));
     }
@@ -54,6 +55,8 @@ if (isset($UserData['Keywords']))
     }
   }
 }
+
+print_r($NodeOutput);
 
 if (!(isset($KeyOutput) || isset($NodeOutput)))
 {
