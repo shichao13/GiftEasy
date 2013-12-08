@@ -90,7 +90,7 @@ function PrintCompareResults($parsed_xml, $parsed_xmltwo, $SearchIndex)
   }
 }  
 
-// Good 'ol pset7 has this great render function
+// Good 'ol pset7 has this render function
 function render($template, $values = [])
       {
           // if template exists, render it
@@ -337,9 +337,9 @@ function FullItemSearch($SearchIndex, $Keywords)
     {
     	// Finding all the information we need
     	array_push($output['Title'], (string)$current->ItemAttributes->Title);
-    	array_push($output['Department']), (string)$current->ItemAttributes->ProductGroup);
-		array_push($output['Image']), (string)$current->LargeImage->URL);
-		array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+    	array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
+		  array_push($output['Image'], (string)$current->LargeImage->URL);
+		  array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
     }
 
     return $output;
@@ -424,11 +424,10 @@ function FullParse($FullItemOutput, $RestrictedWords = array(), $RestrictedDepar
 		if ($AddToOutput == 1)
 		{
 			array_push($output['Title'], $FullItemOutput['Title'][$i]);
-    		array_push($output['Department']), $FullItemOutput['Department'][$i]);
-			array_push($output['Image']), $FullItemOutput['Image'][$i]);
+    	array_push($output['Department'], $FullItemOutput['Department'][$i]);
+			array_push($output['Image'], $FullItemOutput['Image'][$i]);
 			array_push($output['Price'], $FullItemOutput['Price'][$i]);
     }
-		}
 	}
 }
 /*
@@ -441,8 +440,8 @@ function DepartmentSearch($Keywords)
     $params['Keywords']=$Keywords;
 
     // Defined as part of just looking for department
-	$params['SearchIndex'] = "All";
-    $params['ResponseGroup'] = "ItemAttributes"
+	  $params['SearchIndex'] = "All";
+    $params['ResponseGroup'] = "ItemAttributes";
 
     // Create a response with proper signatures using the other function, get from Amazon
     $response = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
@@ -459,7 +458,7 @@ function DepartmentSearch($Keywords)
     foreach ($fullxml->Items->Item as $current)
     {
     	// Finding all the information we need
-    	array_push($output['Department']), (string)$current->ItemAttributes->ProductGroup);
+    	array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
     }
 
     return $output;
@@ -479,14 +478,8 @@ function DepartmentSummary($DepOutput)
 	$Temp['NumTimes'] = array();
 }
 
-function MultiNodeSearch($Id)
+function MultiNodeSearch($Ids)
 {
-    // Define Parameters we need
-    $params['Operation']= "BrowseNodeLookup";
-
-    // Since we have an attribute search...
-    $params['ResponseGroup'] = "ItemAttributes,Images,OfferSummary";
-
     // Create arrays to make sure output goes through properly
     $output['Title'] = array();
     $output['Department'] = array();
@@ -496,38 +489,83 @@ function MultiNodeSearch($Id)
     $output['Results'] = array();
     $output['NodeId'] = array();
 
-    foreach($NodeId as $Node)
+    foreach($Ids as $Node)
     {
     	// Counter for number of items
     	$counter = 0;
 
     	// Set the keyword to the next node
-    	$params['NodeId']=$Node;
+    	$params['BrowseNodeId']=$Node;
+
+      // Since we have an attribute search...
+      $params['ResponseGroup'] = "TopSellers";
+      $params['Operation'] = "BrowseNodeLookup";
+
+      // make sure that ItemId doesn't exist, but this error checks
+      if (isset($params['ItemId']))
+      {
+        unset($params['ItemId']);
+      }
 
     	// Create a response with proper signatures using the other function, get from Amazon
-    	$response = file_get_contents(aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY));
-    	$fullxml = simplexml_load_string($response);
+      $request = aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY);
+    	$response = file_get_contents($request);
+      $fullxml = simplexml_load_string($response);
 
-    	foreach ($fullxml->Items->Item as $current)
+      // For the for loop, we want to use ItemLookup instead
+      $params['Operation'] = "ItemLookup";
+
+    	foreach ($fullxml->BrowseNodes->BrowseNode->TopSellers->TopSeller as $returnresult)
     	{
     		// Increment the Counter
     		$counter++;
+        $title = (string)$returnresult->Title;
+        $ItemId = (string)$returnresult->ASIN;
+
+        // extra parameters for this request
+        $params['ItemId'] = $ItemId;
+        $params['ResponseGroup'] = "Images,OfferSummary";
+
+        // Get another request!
+        $request = aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY);
+        $response = file_get_contents($request);
+        $fullxml = simplexml_load_string($response);
+
+        // Convert to current for similar syntax across this file
+        $current = $fullxml->Items->Item;
 
     		// Finding all the information we need
-    		array_push($output['Title'], (string)$current->ItemAttributes->Title);
-    		array_push($output['Department']), (string)$current->ItemAttributes->ProductGroup);
-			  array_push($output['Image']), (string)$current->LargeImage->URL);
-			  array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+    		array_push($output['Title'], $title);
+    		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
+			  array_push($output['Image'], (string)$current->LargeImage->URL);
+			  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
     	}
 
     	// Overall information
     	array_push($output['Numbers'], $counter);
-    	array_push($output['Results'], (int)$fullxml->Items->TotalResults);
-    	array_push($output['SearchIndex'], $SearchIndex);
+    	array_push($output['Results'], (string)$fullxml->Items->TotalResults);
     	array_push($output['NodeId'], $Node);
 	}
 
     return $output;
+}
+
+// Publishes a full output file to session. Probably useless... but it was fun.
+function ToSession($output)
+{
+  $_SESSION['Title'] = $output['Title'];
+  $_SESSION['Price'] = $output['Price'];
+  $_SESSION['Image'] = $output['Image'];
+
+  if (isset($output['Keywords']))
+  {
+    $_SESSION['Keywords'] = $output['Keywords'];
+  }
+
+  if (isset($output['NodeId']))
+  {
+    $_SESSION['NodeId'] = $output['NodeId'];
+  }
 }
 
 // Searches by node ID with keywords, only allows for one keyword
@@ -546,7 +584,7 @@ function KeyNodeSearch($Node, $Keyword)
     $output['Price'] = array();
 
     // Set the specifics of the keynode search
-    $params['NodeId']=$Node;
+    $params['BrowseNodeId']=$Node;
     $params['Keywords']=$Keyword;
 
     // Create a response with proper signatures using the other function, get from Amazon
@@ -557,9 +595,9 @@ function KeyNodeSearch($Node, $Keyword)
    	{
    		// Finding all the information we need
    		array_push($output['Title'], (string)$current->ItemAttributes->Title);
-   		array_push($output['Department']), (string)$current->ItemAttributes->ProductGroup);
-		array_push($output['Image']), (string)$current->LargeImage->URL);
-		array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+   		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
+		  array_push($output['Image'], (string)$current->LargeImage->URL);
+		  array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
    	}
 
    	// Overall information
@@ -567,7 +605,6 @@ function KeyNodeSearch($Node, $Keyword)
     $output['Results'] = (int)$fullxml->Items->TotalResults;
     $output['NodeId'] = $Node;
 
-	}
 
     return $output;
 }
@@ -604,11 +641,88 @@ function RedundantCheck($Keywords)
 	return $output;
 }
 
-function ToSession($output)
+// Only works for giftsuggestion.php! Uses post
+function GetGiftUserData()
 {
-  $_SESSION['Title'] = $output['Title'];
-  $_SESSION['Price'] = $output['Price'];
-  $_SESSION['Image'] = $output['Image'];
+  // Make sure that a form exists
+  if(!isset($_POST))
+  {
+    print_r("ERROR: GetGiftUserData function is missing a form for input");
+  }
+
+  // Find out if the user is a boy, girl, man, or woman for later
+  if($_POST['gender'] == "M")
+  {
+    if($_POST['age'] < 3)
+    {
+      $output['Person'] = 1;
+      $_SESSION['Person'] = "Boy";
+    }
+    else
+    {
+      $output['Person'] = 3;
+      $_SESSION['Person'] = "Man";
+    }
+  }
+  else if ($_POST['gender'] == "F")
+  {
+    if($_POST['age'] < 3)
+    {
+      $output['Person'] = 2;
+      $_SESSION['Person'] = "Girl";
+    }
+    else
+    {
+      $output['Person'] = 4;
+      $_SESSION['Person'] = "Man";
+    }
+  }
+  else
+  {
+    // there is an error!
+    $output['Error'] = array("Person");
+  }
+
+  // Get the keywords if they exist
+  if (isset($_POST['keywords']))
+  {
+    $output['Keywords'] = $_POST['keywords'];   
+  }
+  else
+  {
+    // Make sure the error is set.... sanitizing our own data. :(
+    if(!isset($output['Error']))
+    {
+      $output['Error'] = array();
+    }
+
+    $output['Error'] = array("Keywords");
+  }
+
+  // Get the relationship if they exist
+  if (isset($_POST['relationship']))
+  {
+    $output['Relation'] = $_POST['relationship'];   
+  }
+  else
+  {
+    // Make sure the error is set.... sanitizing our own data. :(
+    if(!isset($output['Error']))
+    {
+      $output['Error'] = array();
+    }
+  
+    array_push($output['Error'], "Relation");
+  }
+
+  // TODO: Traits
+
+  return $output;
+}
+
+function PullNodeId($trait, $person)
+{
+  
 }
 
 ?>
