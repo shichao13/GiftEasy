@@ -14,6 +14,9 @@ define("SECRET_KEY","PGKAUCkEraUBFxrNFoBTf5dhE8LSFNEm+Pq1oxAd");
 define("Operation", "ItemSearch");
 define("Version", "2011-08-01");
 
+// Needed for selecting pages
+define("Maxitems", 15);
+
 /*
  * PrintCompareResults: Given two xml files, it will print the common items between them.
  */
@@ -781,7 +784,7 @@ function CondenseOutput($KeyOutput)
 
   // Display 10 things. It doesn't matter how long it takes to get there
   $counter = 0;
-  while ($counter < 10)
+  while ($counter < Maxitems)
   {
     // Random integer that represents one of our words
     $rint = rand(1, $NumKey);
