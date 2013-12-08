@@ -758,4 +758,48 @@ function PullNodeId($trait, $person)
   }
 }
 
+function CondenseOutput($KeyOutput)
+{
+  // Find out how many terms we have in total
+  $NumKey = count($KeyOutput);
+
+  // Create arrays to keep track of how many we've used
+  $NumItem = array();
+  $UsedItem = array();
+
+  // Our output array!
+  $output['Title'] = array();
+  $output['Image'] = array();
+  $output['Price'] = array();
+
+  // Populate the arrays for total and how much we've used
+  for ($i = 0; $i < $NumKey; $i++)
+  {
+    array_push($NumItem, count($KeyOutput[$i]['Title']));
+    array_push($UsedItem, 0);
+  }
+
+  // Display 10 things. It doesn't matter how long it takes to get there
+  $counter = 0;
+  while ($counter < 10)
+  {
+    // Random integer that represents one of our words
+    $rint = rand(1, $NumKey);
+
+    if ($NumItem[$rint] != $UsedItem[$rint])
+    {
+      // Create a new output matrix by pushing things onto it
+      array_push($output['Title'], $KeyOutput[$rint]['Title'][$UsedItem[$rint]]);
+      array_push($output['Image'], $KeyOutput[$rint]['Image'][$UsedItem[$rint]]);
+      array_push($output['Price'], $KeyOutput[$rint]['Price'][$UsedItem[$rint]]);
+
+      // We have used up an item and the counter
+      $UsedItem[$rint]++;
+      $counter++;
+    }
+  }
+
+  return $output;
+}
+
 ?>
