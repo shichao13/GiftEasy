@@ -15,6 +15,14 @@
     
     <!--Authorizing Yelp -->
     <script type="text/javascript">
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+
         $(function() {
         var auth = {
           //
@@ -31,10 +39,10 @@
           }
         };
 
-        // the term 'store' is hardcoded to focus only on stores
-        // i.e. baseball by itself would get parks and stadiums
-        var terms = $_GET['term'] + ' store';
-        var near = '07059';
+
+        //Define variables necessary to find stores. 
+        terms = getUrlVars()["term"] + " store";
+        var near = getUrlVars()["address"];
 
         var accessor = {
           consumerSecret: auth.consumerSecret,
@@ -72,6 +80,7 @@
           'jsonpCallback': 'cb',
           'success': function(data, textStats, XMLHttpRequest) {
             console.log(data);
+            // prints out store info
             for (var i = 0; i < 10; i++)
             {
                 $('#results' + i).html(data.businesses[i].name + "<br/>" + data.businesses[i].rating + "/5 <br/>" + data.businesses[i].location.address + "<br/>" 
@@ -149,29 +158,51 @@
             );
         }
 
-        //Function that gets run when the document loads
+        //Function that gets run when the document loads and manages refreshing
         yoh.initialize = function()
         {
             geocoder = new google.maps.Geocoder();
-            var latlng = new google.maps.LatLng(42.3744, -71.1169);
+
+                latlng = new google.maps.LatLng(42.3744, -71.1169);
+
+            console.log(latlng.pb, latlng.qb);
             var myOptions = {
                 zoom: 15,
-                center: latlng,
             };
             map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
             
-            //Sample call for yelp data for cafe'sv document.getElementById("keyterm")
-            yoh.getYelp('basketball'+' store');
+            if (getUrlVars()['address']) {
+                geocoder.geocode( { 'address': getUrlVars()['address']}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) 
+                    {
+                        map.setCenter(results[0].geometry.location);
+                    } 
+                    else 
+                    {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                  });
+            }
+            else {
+                map.setCenter(latlng);
+            }
+            //Call for yelp data; waits 2 seconds for center function to finish
+            setTimeout(function(){yoh.getYelp(terms)}, 2000);
         }
 
         // function to change the map and Yelp markers everytime the location is updated
         function codeAddress() {
           var address = document.getElementById('address').value;
+
+          var urlvars = getUrlVars();
+          link = "stores.html?term=" + urlvars['term'] + "&input=" + urlvars['input'] + "&address=" + address;
+          window.location.replace(link);
+
           geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) 
             {
                 map.setCenter(results[0].geometry.location);
-                yoh.getYelp('basketball'+' store');
+                yoh.getYelp(terms);
             } 
             else 
             {
