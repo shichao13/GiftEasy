@@ -26,8 +26,9 @@ if (isset($UserData['Traits']) && isset($UserData['Person']))
 if (isset($UserData['Keywords']))
 {
   $KeyOutput = array();
-  foreach($UserData['Keywords'] as $word)
+  for ($i = 0; $i < count($UserData['Keywords']); $i++)
   {
+    $word = $UserData['Keywords'][$i];
     $safe = 1;
     $chars = str_split($word);
 
@@ -58,7 +59,7 @@ if (!(isset($KeyOutput) || isset($NodeOutput)))
 else if (isset($KeyOutput) && isset($NodeOutput))
 {
   ToSession($NodeOutput);
-  $NodeItems = array($_SESSION['Title'], $_SESSION['Image'], $_SESSION['Price']);
+  $NodeItems = array($_SESSION['Title'], $_SESSION['Image'], $_SESSION['Price'], $_SESSION['Numbers']);
 
   ToSession($KeyOutput);
   $KeyItems = array($_SESSION['Title'], $_SESSION['Image'], $_SESSION['Price']);
@@ -70,12 +71,12 @@ else if (isset($KeyOutput))
   ToSession($KeyOutput);
   $KeyItems = array($_SESSION['Title'], $_SESSION['Image'], $_SESSION['Price']);
 
-  render("Pages/resultspage.html", ["KeyItems" => $KeyItems, "pagetitle" => "Search Results"]);
+  render("Pages/allentemp.html", ["KeyItems" => $KeyItems, "pagetitle" => "Search Results"]);
 }
 else
 {
   ToSession($NodeOutput);
-  $NodeItems = array($_SESSION['Title'], $_SESSION['Image'], $_SESSION['Price']);
+  $NodeItems = array($_SESSION['Title'], $_SESSION['Image'], $_SESSION['Price'], $_SESSION['Numbers']);
 
   render("Pages/resultspage.html", ["NodeItems" => $NodeItems, "pagetitle" => "Search Results"]);
 }

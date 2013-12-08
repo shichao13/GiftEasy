@@ -159,7 +159,7 @@ function printtitles($relevancexml, $searcharray, $j)
           // Push these arrays onto the superglobal for the next page
           array_push($_SESSION['Title'], (string)$current->ItemAttributes->Title);
           array_push($_SESSION['Author'], (string)$current->ItemAttributes->Author); 
-          array_push($_SESSION['Price'], (float)$current->Offers->Offer->Price); 
+          array_push($_SESSION['Price'], (string)$current->Offers->Offer->Price); 
           array_push($_SESSION['Review'], $review);
         }
       }
@@ -210,7 +210,7 @@ function nomatcheserror($relevancexml, $numberremain)
         // Push onto our superglobal for other pages to use
         array_push($_SESSION['Title'], (string)$current->ItemAttributes->Title);
         array_push($_SESSION['Author'], (string)$current->ItemAttributes->ListPrice); 
-        array_push($_SESSION['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice); 
+        array_push($_SESSION['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice); 
         array_push($_SESSION['Review'], $review);
       }
     } 
@@ -339,7 +339,7 @@ function FullItemSearch($SearchIndex, $Keywords)
     	array_push($output['Title'], (string)$current->ItemAttributes->Title);
     	array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
 		  array_push($output['Image'], (string)$current->LargeImage->URL);
-		  array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+		  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
     }
 
     return $output;
@@ -557,6 +557,11 @@ function ToSession($output)
   $_SESSION['Price'] = $output['Price'];
   $_SESSION['Image'] = $output['Image'];
 
+  if (isset($output['Numbers']))
+  {
+    $_SESSION['Numbers'] = $output['Numbers'];
+  }
+
   if (isset($output['Keywords']))
   {
     $_SESSION['Keywords'] = $output['Keywords'];
@@ -597,7 +602,7 @@ function KeyNodeSearch($Node, $Keyword)
    		array_push($output['Title'], (string)$current->ItemAttributes->Title);
    		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
 		  array_push($output['Image'], (string)$current->LargeImage->URL);
-		  array_push($output['Price'], (float)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+		  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
    	}
 
    	// Overall information
