@@ -9,6 +9,7 @@ include('functions.php');
 // Code Begins!
 session_start();
 
+//print_r($_POST['traits']);
 $UserData = GetGiftUserData();
 
 $SearchIndex = "All";

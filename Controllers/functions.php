@@ -14,9 +14,6 @@ define("SECRET_KEY","PGKAUCkEraUBFxrNFoBTf5dhE8LSFNEm+Pq1oxAd");
 define("Operation", "ItemSearch");
 define("Version", "2011-08-01");
 
-// Needed for selecting pages
-define("Maxitems", 15);
-
 /*
  * PrintCompareResults: Given two xml files, it will print the common items between them.
  */
@@ -492,6 +489,8 @@ function MultiNodeSearch($Ids)
     $output['Results'] = array();
     $output['NodeId'] = array();
 
+    print_r($Ids);
+    print_r("MICHAELMA");
     foreach($Ids as $Node)
     {
     	// Counter for number of items
@@ -658,6 +657,9 @@ function GetGiftUserData()
     print_r("ERROR: GetGiftUserData function is missing a form for input");
   }
 
+  // Initialize the traits array
+  $output['Traits'] = array();
+
   // Find out if the user is a boy, girl, man, or woman for later
   if($_POST['gender'] == "M")
   {
@@ -671,6 +673,11 @@ function GetGiftUserData()
       $output['Person'] = 3;
       $_SESSION['Person'] = "Man";
     }
+
+    if($_POST['relationship'] == 'Parent')
+    {
+      array_push($output['Traits'], 'Father');
+    }
   }
   else if ($_POST['gender'] == "F")
   {
@@ -683,6 +690,15 @@ function GetGiftUserData()
     {
       $output['Person'] = 4;
       $_SESSION['Person'] = "Man";
+    }
+
+    if($_POST['relationship'] == 'Girlfriend')
+    {
+      array_push($output['Traits'], 'Girlfriend');
+    }
+    else if($_POST['relationship'] == 'Parent')
+    {
+      array_push($output['Traits'], 'Mother');
     }
   }
   else
@@ -724,17 +740,26 @@ function GetGiftUserData()
     array_push($output['Error'], "Relation");
   }
 
-  // TODO: Traits
-
   return $output;
 }
 
 // Pulls Node ID array from mySQL, or return array with 400 in it
 function PullNodeId($trait, $person)
 {
+  if ($trait == 'Trendy' || $trait == 'DIY' || $trait == 'Professional')
+  {
   $query = sprintf("SELECT * FROM nodes WHERE description = %s", 
                     $trait.$person);
   $output = mysql_query($query);
+  }
+  else
+  {
+  $query = sprintf("SELECT * FROM nodes WHERE description = %s", 
+                    $trait);
+  $output = mysql_query($query);
+  }
+  print_r($output);
+  print_r("<br><br><br>");
 
   if($output == FALSE)
   {
@@ -763,6 +788,9 @@ function PullNodeId($trait, $person)
 
 function CondenseOutput($KeyOutput)
 {
+  // Max number of items on our page
+  $maxitems = 15;
+
   // Find out how many terms we have in total
   $NumKey = count($KeyOutput);
 
@@ -784,13 +812,16 @@ function CondenseOutput($KeyOutput)
 
   // Display 10 things. It doesn't matter how long it takes to get there
   $counter = 0;
-  while ($counter < Maxitems)
+  $infinite = 0;
+  while (($counter < $maxitems) && ($infinite < 30))
   {
     // Random integer that represents one of our words
-    $rint = rand(1, $NumKey);
-
+    $rint = rand(0, $NumKey);
+    $infinite++;
+    
     if ($NumItem[$rint] != $UsedItem[$rint])
     {
+
       // Create a new output matrix by pushing things onto it
       array_push($output['Title'], $KeyOutput[$rint]['Title'][$UsedItem[$rint]]);
       array_push($output['Image'], $KeyOutput[$rint]['Image'][$UsedItem[$rint]]);
