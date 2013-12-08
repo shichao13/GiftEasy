@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: image/jpeg');
+
 include('aws_signed_request.php');
 include('functions.php');
 

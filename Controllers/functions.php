@@ -338,7 +338,7 @@ function FullItemSearch($SearchIndex, $Keywords)
     	// Finding all the information we need
     	array_push($output['Title'], (string)$current->ItemAttributes->Title);
     	array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
-		  array_push($output['Image'], (string)$current->LargeImage->URL);
+		  array_push($output['Image'], (string)$current->SmallImage->URL);
 		  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
     }
 
@@ -537,7 +537,7 @@ function MultiNodeSearch($Ids)
     		// Finding all the information we need
     		array_push($output['Title'], $title);
     		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
-			  array_push($output['Image'], (string)$current->LargeImage->URL);
+			  array_push($output['Image'], (string)$current->SmallImage->URL);
 			  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
     	}
 
@@ -601,7 +601,7 @@ function KeyNodeSearch($Node, $Keyword)
    		// Finding all the information we need
    		array_push($output['Title'], (string)$current->ItemAttributes->Title);
    		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
-		  array_push($output['Image'], (string)$current->LargeImage->URL);
+		  array_push($output['Image'], (string)$current->SmallImage->URL);
 		  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
    	}
 
@@ -691,34 +691,7 @@ function GetGiftUserData()
   // Get the keywords if they exist
   if (isset($_POST['keywords']))
   {
-    $output['Keywords'] = array();
-    $charvec = str_split($_POST['keywords']);
-    $word = array();
-    $counter = 0;
-    /*foreach($charvec as $char)
-    {
-      if(ord($char) == 44)
-      {
-        if($counter == 1)
-        {
-          array_push($output['Keywords'], (string)$word);
-        }
-        else if ($counter > 1)
-        {
-          array_push($output['Keywords'], implode($word));
-          $word = array();
-        }
-      }
-      else
-      {
-        array_push($word, $char);
-        $counter++;
-      }
-    }
-
-    array_push($output['Keywords'], implode($word));
-    */
-
+    // Explode the string into words
     $output['Keywords'] = explode(",", $_POST['keywords']);
   }
   else
