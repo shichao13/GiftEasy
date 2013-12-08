@@ -720,9 +720,10 @@ function GetGiftUserData()
   return $output;
 }
 
+// Pulls Node ID array from mySQL
 function PullNodeId($trait, $person)
 {
-  
+  $query = sprintf("SELECT * FROM NODES WHERE ")
 }
 
 ?>

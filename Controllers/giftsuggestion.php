@@ -6,12 +6,11 @@ include('functions.php');
 // Code Begins!
 session_start();
 
-// Number of pages we are looking at from amazon
-$j=2;
+$UserData = GetGiftUserData();
 
-// Main function - looking for items
-//OldItemSearch($SearchIndex, $Keywords, $j);
-$Node = '172681';
+
+
+
 $output = MultiNodeSearch(array($Node));
 print_r($output);
 
