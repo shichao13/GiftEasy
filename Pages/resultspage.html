@@ -9,6 +9,13 @@
     <meta name="viewport" content="initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
+     <script src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jquery.tagger.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+    <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet" href="//secure.newdream.net/singlepage/_assets/css/site.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
@@ -16,25 +23,16 @@
 
 <body style="text-align: center;">
     <a href="http://www.gifteasy.net">
-    <img border="0" src="Pages/giftlogo.gif" alt="Logo" width="150" height="188"></a>
+    <img border="0" src="giftlogo.gif" alt="Logo" width="150" height="188"></a>
     <p class="italic">
     "Bro, do you even gift?"</p>
-
-    <h1>Yelp Search</h1>
-    <form action="https://api.yelp.com/v2/search?limit=5&term=&location=" method="get">
-        <input name="find_desc" type="text"/>
-        <input name="find_loc  " type="text"/>
-        <br/>
-        <input type="submit" value="Yelp Search"/>
-    </form>
-
 		
 <table id="box-table-a" summary="Amazon Products">
     <thead>
         <tr>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
-            <th scope="col">Price</th>
+            <th scope="col">Rating</th>
         </tr>
     </thead>
     <tbody>
@@ -45,6 +43,26 @@
         </tr>
     </tbody>
 </table>
+
+<table id="box-table-a" summary="Amazon Products">
+    <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
         <?php
 		for ($i = 0; $i < 10; $i++)
 		{ 
