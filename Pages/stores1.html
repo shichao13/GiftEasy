@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html> 
 <head>
   <script type="text/javascript">    
@@ -40,7 +42,6 @@
       yoh.getYelp('basketball'+' store');
     }
   </script>
-</head>
 
 <title>Yelp Search</title> 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
@@ -108,32 +109,34 @@ $.ajax({
 
 
 <body>
-<?php
+  <?php 
+    
+    $yelpstring = file_get_contents("http://api.yelp.com/business_review_search?category=bars&lat=".$latitude."&long=".$longitude."&radius=25&num_biz_requested=100&ywsid=ynoYeq0HNwWfPKFRqK-5qg", true); 
+     
+    $obj = json_decode($yelpstring);// Convert JSON from yelp return string
+     
+      print_r($obj);
+      echo("<br/")
+      foreach ($obj->businesses as $business)
+        {
+          echo("<img border=0 src='".$business->photo_url."'><br/>");
+          echo($business->name."<br/>");
+          echo($business->address1."<br/>");
+     
+          if( $business->address2 ){
+             echo($business->address2."<br/>");
+          };
+     
+          echo($business->city ."<br/>");
+          echo($business->state ."<br/>");
+          echo($business->zip ."<br/>");
+          echo($business->latitude ."<br/>");
+          echo($business->longitude ."<br/>");
+     
+          echo("<hr>");
+        }
 
-$yelpstring = file_get_contents("http://api.yelp.com/business_review_search?category=bars&lat=".$latitude."&long=".$longitude."&radius=25&num_biz_requested=100&ywsid=ynoYeq0HNwWfPKFRqK-5qg", true); 
- 
-$obj = json_decode($yelpstring);// Convert JSON from yelp return string
- 
- 
-  foreach($obj->businesses as $business):
-      echo "<img border=0 src='".$business->photo_url."'><br/>";
-      echo $business->name."<br/>";
-      echo $business->address1."<br/>";
- 
-      if( $business->address2 ){
-         echo $business->address2."<br/>";
-      };
- 
-      echo $business->city ."<br/>";
-      echo $business->state ."<br/>";
-      echo $business->zip ."<br/>";
-      echo $business->latitude ."<br/>";
-      echo $business->longitude ."<br/>";
- 
-      echo "<hr>";
-  endforeach;
-
-?>
+  ?>
 
 
 </body>
