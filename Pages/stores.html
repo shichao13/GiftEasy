@@ -81,20 +81,6 @@
             );
         }
 
-$(document).ready(function(){
-  $("button").click(function(){
-    $.getJSON('http://api.yelp.com/business_review_search?lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&limit=10&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+term, function(data){
-         $.each(data.businesses, function(i,item){
-                        trace(item);
-                        infowindowcontent = '<strong>'+item.name+'</strong><br>';
-                        infowindowcontent += '<img src="'+item.photo_url+'"><br>';
-                        infowindowcontent += '<a href="'+item.url+'" target="_blank">see it on yelp</a>';
-                        
-                        console.log(i,item.latitude,item.longitude,item.name, infowindowcontent);
-        });   
-    });
-  });
-});
         //Function that gets run when the document loads
         yoh.initialize = function()
         {
@@ -115,8 +101,27 @@ $(document).ready(function(){
 <body onload="yoh.initialize()">
     <!-- side panel div container -->
     <div style="position:absolute; width:380px; height: 100%; overflow:auto; float:left; padding-left:10px; padding-right:10px;">
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $signed_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+$response = curl_exec($ch);
+curl_close($ch);
 
-<button>Get JSON data</button>
+// Handle Yelp response data
+$obj = json_decode($response,true);
+
+echo var_dump($obj);
+
+if (isset($bus)) {
+foreach($obj['businesses'] as $bus){
+    echo $bus['name'];
+    echo $bus['reviews'];
+    }
+}
+?>
+
 
     </div>
     <!-- map div container -->
