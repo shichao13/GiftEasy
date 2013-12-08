@@ -56,8 +56,6 @@ if (isset($UserData['Keywords']))
   }
 }
 
-print_r($NodeOutput);
-
 if (!(isset($KeyOutput) || isset($NodeOutput)))
 {
   print_r("ERROR: User did not input keywords or traits");

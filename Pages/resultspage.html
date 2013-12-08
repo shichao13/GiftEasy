@@ -66,13 +66,13 @@
     <tbody>
        <?php 
         
-        $Formatted = CondenseOutput($KeyItems);
+        $NFormatted = CondenseOutput($NodeItems);
         for ($j = 0; $j < count($Formatted['Title']); $j++)
         {
                 print_r('<tr>');
-                print_r('<td>'. "<img src=". $Formatted['Image'][$j]. ">". '</td>');
-                print_r('<td>'."<a href=\"stores.html\">". $Formatted['Title'][$j]."</a>".'</td>'); 
-                print_r('<td>'.$Formatted['Price'][$j] .'</td>');
+                print_r('<td>'. "<img src=". $NFormatted['Image'][$j]. ">". '</td>');
+                print_r('<td>'."<a href=\"stores.html\">". $NFormatted['Title'][$j]."</a>".'</td>'); 
+                print_r('<td>'.$NFormatted['Price'][$j] .'</td>');
                 print_r('</tr>');
         }
         ?>

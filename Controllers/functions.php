@@ -525,8 +525,20 @@ function MultiNodeSearch($Ids)
     	{
     		// Increment the Counter
     		$counter++;
+
+        // Find the titles we want
         $title = (string)$returnresult->Title;
-        $ItemId = (string)$returnresult->ASIN;
+        array_push($output['Title'], $title);
+
+        // Get a list of ItemId's togehter
+        if ($counter == 1)
+        {
+          $ItemId = (string)$returnresult->ASIN;
+        }
+        else
+        {
+          $ItemId = $ItemId . (string)$returnresult->ASIN);
+        }
 
         // extra parameters for this request
         $params['ItemId'] = $ItemId;
@@ -541,7 +553,6 @@ function MultiNodeSearch($Ids)
         $current = $fullxml->Items->Item;
 
     		// Finding all the information we need
-    		array_push($output['Title'], $title);
     		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
 			  array_push($output['Image'], (string)$current->SmallImage->URL);
 			  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
