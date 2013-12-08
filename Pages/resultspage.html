@@ -10,18 +10,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <link rel="stylesheet" href="//secure.newdream.net/singlepage/_assets/css/site.css" />
-    <link rel="stylesheet" type="text/css" href="...css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="http://www.gifteasy.net/css/styles.css"/>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
 </head>
 
 <body style="text-align: center;">
     <a href="http://www.gifteasy.net">
-    <img border="0" src="giftlogo.gif" alt="Logo" width="150" height="188"></a>
-    <p class="italic">
-    "Bro, do you even gift?"</p>
-		
+    <img border="0" src="http://www.gifteasy.net/Pages/giftlogo.gif" alt="Logo" width="150" height="188"></a>
+    <p class="italic">"Bro, do you even gift?"</p>
+        
 <table id="box-table-a" style="float: left" summary="Amazon Products">
     <thead>
+        <tr>
+            <th></th>
+            <th>Recommendation by Interests or Hobbies</th>
+            <th></th>
+        </tr>
         <tr>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
@@ -40,6 +44,11 @@
 <table id="box-table-a" style="float: right" summary="Amazon Products">
     <thead>
         <tr>
+            <th></th>
+            <th>Recommendation by Interests or Hobbies</th>
+            <th></th>
+        </tr>
+        <tr>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
             <th scope="col">Rating</th>
@@ -53,17 +62,23 @@
         </tr>
     </tbody>
 </table>
-
-
-
         <?php
-		for ($i = 0; $i < 10; $i++)
-		{ 
-		    echo("<div>
-				<a href=\"stores.html\">" . $items[0][$i] . "</a>\n" .  $items[1][$i] .  "\n\$" 
-				. $items[2][$i] . "Rating:" .  $items[3][$i] . "/5
-				</div>");
-		}
-		?>
+        for ($i = 0; $i < 10; $i++)
+        { 
+            echo("<div>
+                <a href=\"stores.html\">" . $KeyItems[0][0][$i] . "</a>\n" .  $KeyItems[1][0][$i] .  "\n\$" 
+                . $KeyItems[2][0][$i] . "Rating:" .  $KeyItems[3][0][$i] . "/5
+                </div>");
+        }
+
+        print_r("<br><br><br><br><br>");
+        for ($i = 0; $i < 10; $i++)
+        { 
+            echo("<div>
+                <a href=\"stores.html\">" . $KeyItems[0][0][$i] . "</a>\n" .  $KeyItems[1][0][$i] .  "\n\$" 
+                . $KeyItems[2][0][$i] . "Rating:" .  $KeyItems[3][0][$i] . "/5
+                </div>");
+        }
+        ?>
 </body>
 </html>

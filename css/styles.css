@@ -44,11 +44,11 @@ ul.tagit {
 
 #box-table-a
 {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-family: arvo;
     font-size: 12px;
     margin: 45px;
     width: 480px;
-    text-align: left;
+    text-align: center;
     border-collapse: collapse;
 }
 #box-table-a th
@@ -72,6 +72,7 @@ ul.tagit {
 #box-table-a tr:hover td
 {
     background: #d0dafd;
+    font-family: arvo;
     color: #339;
 }
 
@@ -89,7 +90,3 @@ html, body
 }
 
 #map_canvas { height: 100% }
-
-
-
-
