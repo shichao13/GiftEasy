@@ -691,7 +691,35 @@ function GetGiftUserData()
   // Get the keywords if they exist
   if (isset($_POST['keywords']))
   {
-    $output['Keywords'] = $_POST['keywords'];   
+    $output['Keywords'] = array();
+    $charvec = str_split($_POST['keywords']);
+    $word = array();
+    $counter = 0;
+    /*foreach($charvec as $char)
+    {
+      if(ord($char) == 44)
+      {
+        if($counter == 1)
+        {
+          array_push($output['Keywords'], (string)$word);
+        }
+        else if ($counter > 1)
+        {
+          array_push($output['Keywords'], implode($word));
+          $word = array();
+        }
+      }
+      else
+      {
+        array_push($word, $char);
+        $counter++;
+      }
+    }
+
+    array_push($output['Keywords'], implode($word));
+    */
+
+    $output['Keywords'] = explode(",", $_POST['keywords']);
   }
   else
   {
