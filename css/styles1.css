@@ -1,0 +1,68 @@
+/**
+ * styles1.css
+ *
+ *
+ * Global CSS.
+ */
+
+
+html, body 
+{
+    background-color: #cddadf;
+    background-image: -webkit-gradient(radial,50% 50%,0,50% 50%,200,from(#cddadf),to(#f9fafb));
+    background-image: -webkit-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: -moz-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: -o-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: -ms-radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-image: radial-gradient(50% 50%,#f9fafb,#cddadf);
+    background-repeat: no-repeat;
+    min-height: 100%;
+    height: 100%; 
+    margin: 0px; 
+    padding: 0px
+}
+
+#map_canvas { height: 100% width: 80%; margin-top: 45px}
+
+p.italic {font-style:italic;}
+
+p
+{
+    font-size:0.75em;
+    font-family: arvo;
+} 
+
+#box-table-a
+{
+    font-family: arvo;
+    font-size: 12px;
+    margin: 45px;
+    width: 500px;
+    text-align: center;
+    border-collapse: collapse;
+}
+#box-table-a th
+{
+    font-size: 13px;
+    text-align: center;
+    font-weight: normal;
+    padding: 8px;
+    background: #b9c9fe;
+    border-top: 4px solid #aabcfe;
+    border-bottom: 1px solid #fff;
+    color: #039;
+}
+#box-table-a td
+{
+    padding: 8px;
+    background: #e8edff; 
+    text-align: center;
+    border-bottom: 1px solid #fff;
+    color: #669;
+    border-top: 1px solid transparent;
+}
+#box-table-a tr:hover td
+{
+    background: #d0dafd;
+    color: #339;
+}
