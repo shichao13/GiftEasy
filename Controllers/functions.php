@@ -315,7 +315,7 @@ function FullItemSearch($SearchIndex, $Keywords)
     $params['SearchIndex']=$SearchIndex;
     $params['Keywords']=$Keywords;
 
-    // Since we have an attribute search...
+    // Since we have an attribute search...require
     $params['ResponseGroup'] = "ItemAttributes,Images,OfferSummary";
 
     // Create a response with proper signatures using the other function, get from Amazon
@@ -720,10 +720,36 @@ function GetGiftUserData()
   return $output;
 }
 
-// Pulls Node ID array from mySQL
+// Pulls Node ID array from mySQL, or return array with 400 in it
 function PullNodeId($trait, $person)
 {
-  $query = sprintf("SELECT * FROM NODES WHERE ")
+  $query = sprintf("SELECT * FROM nodes WHERE description = %s", 
+                    $trait.$person);
+  $output = mysql_query($query);
+
+  if($output == FALSE)
+  {
+    print_r("ERROR: Incorrect Query");
+  }
+  else
+  {
+    $length = count($output);
+    $nodeid = array();
+    for ($i = 1; $i<$length; $i++)
+    {
+      array_push($nodeid, $output[$i]);
+    }
+  }
+
+  if(count($output) == 0)
+  {
+    $error = array(400);
+    return $error;
+  }
+  else
+  {
+    return $output;
+  }
 }
 
 ?>
