@@ -31,15 +31,23 @@
         <tr>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
-            <th scope="col">Rating</th>
+            <th scope="col">Price</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        <?php 
+        for ($j = 0; $j < count($KeyItems); $j++)
+        {
+            for ($i = 0; $i < 10; $i++)
+            { 
+                print_r('<tr>');
+                print_r('<td>'. "<img src=". $KeyItems[$j]['Image'][$i]. ">". '</td>');
+                print_r('<td>'."<a href=\"stores.html\">". $KeyItems[$j]['Title'][$i]."</a>".'</td>'); 
+                print_r('<td>'.$KeyItems[$j]['Price'][$i] .'</td>');
+                print_r('</tr>');
+            }
+        }
+        ?>
     </tbody>
 </table>
 
@@ -53,25 +61,24 @@
         <tr>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
-            <th scope="col">Rating</th>
+            <th scope="col">Price</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-        </tr>
-    </tbody>
-</table>
         <?php 
         for ($j = 0; $j < count($KeyItems); $j++)
         {
             for ($i = 0; $i < 10; $i++)
             { 
-                print_r("<img src=". $KeyItems[$j]['Image'][$i] . ">");
-                print_r("<div> <a href=\"stores.html\">".  
-                        $KeyItems[$j]['Title'][$i] ."</a><br>". "Price: " 
-                        . $KeyItems[$j]['Price'][$i] . "</div>");
+                print_r('<tr>');
+                print_r('<td>'. "<img src=". $KeyItems[$j]['Image'][$i]. ">". '</td>');
+                print_r('<td>'."<a href=\"stores.html\">". $KeyItems[$j]['Title'][$i]."</a>".'</td>'); 
+                print_r('<td>'.$KeyItems[$j]['Price'][$i] .'</td>');
+                print_r('</tr>');
             }
         }
         ?>
+    </tbody>
+</table>
 </body>
 </html>
