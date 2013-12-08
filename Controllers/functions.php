@@ -488,6 +488,7 @@ function MultiNodeSearch($Ids)
     $output['Numbers'] = array();
     $output['Results'] = array();
     $output['NodeId'] = array();
+    $output['Keywords'] = array();
 
     foreach($Ids as $Node)
     {
@@ -511,6 +512,9 @@ function MultiNodeSearch($Ids)
       $request = aws_signed_request('com', $params, Access_Key_ID, SECRET_KEY);
     	$response = file_get_contents($request);
       $fullxml = simplexml_load_string($response);
+      
+      // Save the browsenode name for later use
+      $output['Keywords'] = (string)$fullxml->BrowseNodes->BrowseNode->Name;
 
       // For the for loop, we want to use ItemLookup instead
       $params['Operation'] = "ItemLookup";
@@ -861,6 +865,7 @@ function CondenseOutput($KeyOutput)
   $output['Title'] = array();
   $output['Image'] = array();
   $output['Price'] = array();
+  $output['Keywords'] = array();
 
   // Populate the arrays for total and how much we've used
   for ($i = 0; $i < $NumKey; $i++)
@@ -885,6 +890,7 @@ function CondenseOutput($KeyOutput)
       array_push($output['Title'], $KeyOutput[$rint]['Title'][$UsedItem[$rint]]);
       array_push($output['Image'], $KeyOutput[$rint]['Image'][$UsedItem[$rint]]);
       array_push($output['Price'], $KeyOutput[$rint]['Price'][$UsedItem[$rint]]);
+      array_push($output['Keywords'], $KeyOutput[$rint]['Keywords']);
 
       // We have used up an item and the counter
       $UsedItem[$rint]++;

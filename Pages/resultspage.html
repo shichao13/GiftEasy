@@ -42,10 +42,11 @@
         {
                 print_r('<tr>');
                 print_r('<td>'. "<img src=". $Formatted['Image'][$j]. ">". '</td>');
-                print_r('<td>'."<a href=\"stores.html\">". $Formatted['Title'][$j]."</a>".'</td>'); 
+                print_r('<td>'."<a href=\"../Pages/stores.html?term=" . $Formatted['Keywords'][$j] . "&input=". "key". "\">". $Formatted['Title'][$j]."</a>".'</td>'); 
                 print_r('<td>'.$Formatted['Price'][$j] .'</td>');
                 print_r('</tr>');
         }
+
         ?>
     </tbody>
 </table>
@@ -71,7 +72,7 @@
         {
                 print_r('<tr>');
                 print_r('<td>'. "<img src=". $NFormatted['Image'][$j]. ">". '</td>');
-                print_r('<td>'."<a href=\"stores.html\">". $NFormatted['Title'][$j]."</a>".'</td>'); 
+                print_r('<td>'."<a href=\"../Pages/stores.html?term=" . $NFormatted['Keywords'][$j] . "&input=". "node". "\">". $NFormatted['Title'][$j]."</a>".'</td>'); 
                 print_r('<td>'.$NFormatted['Price'][$j] .'</td>');
                 print_r('</tr>');
         }
