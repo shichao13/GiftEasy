@@ -36,16 +36,15 @@
     </thead>
     <tbody>
         <?php 
-        for ($j = 0; $j < count($KeyItems); $j++)
+
+        $Formatted = CondenseOutput($KeyItems);
+        for ($j = 0; $j < count($Formatted['Title']); $j++)
         {
-            for ($i = 0; $i < 10; $i++)
-            { 
                 print_r('<tr>');
-                print_r('<td>'. "<img src=". $KeyItems[$j]['Image'][$i]. ">". '</td>');
-                print_r('<td>'."<a href=\"stores.html\">". $KeyItems[$j]['Title'][$i]."</a>".'</td>'); 
-                print_r('<td>'.$KeyItems[$j]['Price'][$i] .'</td>');
+                print_r('<td>'. "<img src=". $Formatted['Image'][$j] . ">". '</td>');
+                print_r('<td>'."<a href=\"stores.html\">". $Formatted['Title'][$j] ."</a>".'</td>'); 
+                print_r('<td>'.$Formatted['Price'][$j] .'</td>');
                 print_r('</tr>');
-            }
         }
         ?>
     </tbody>
@@ -66,16 +65,15 @@
     </thead>
     <tbody>
         <?php 
-        for ($j = 0; $j < count($KeyItems); $j++)
+
+        $Formatted = CondenseOutput($KeyItems);
+        for ($j = 0; $j < count($Formatted['Title']); $j++)
         {
-            for ($i = 0; $i < 10; $i++)
-            { 
                 print_r('<tr>');
-                print_r('<td>'. "<img src=". $KeyItems[$j]['Image'][$i]. ">". '</td>');
-                print_r('<td>'."<a href=\"stores.html\">". $KeyItems[$j]['Title'][$i]."</a>".'</td>'); 
-                print_r('<td>'.$KeyItems[$j]['Price'][$i] .'</td>');
+                print_r('<td>'. "<img src=". $Formatted['Image'][$j] . ">". '</td>');
+                print_r('<td>'."<a href=\"stores.html\">". $Formatted['Title'][$j] ."</a>".'</td>'); 
+                print_r('<td>'.$Formatted['Price'][$j] .'</td>');
                 print_r('</tr>');
-            }
         }
         ?>
     </tbody>
