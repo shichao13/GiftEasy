@@ -2,6 +2,7 @@
 
 <html> 
 <head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">    
     //declare namespace
     var yoh = {};
@@ -21,7 +22,7 @@
     //function to get data from YELP
     yoh.getYelp = function(term)
     {
-      $.getJSON('http://api.yelp.com/v2/search?limit=5&lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+'term=+document.getElementById("term")',
+      $.getJSON('http://api.yelp.com/v2/search?limit=5&lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+document.getElementById("term"),
           function(data)
           {
               $.each(data.businesses, function(i,item){
@@ -35,6 +36,21 @@
           }
       );
     }
+
+    $(document).ready(function(){
+      $("button").click(function(){
+         $.getJSON('http://api.yelp.com/v2/search?limit=5&lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+document.getElementById("term"),
+          function(data)
+        {
+          $.each(data.businesses, function(i,item){
+            trace(item);
+                  infowindowcontent = '<strong>'+item.name+'</strong><br>';
+                  infowindowcontent += '<img src="'+item.photo_url+'"><br>';
+                  infowindowcontent += '<a href="'+item.url+'" target="_blank">see it on yelp</a>';
+          });
+        });
+      });
+    });
 
     //Function that gets run when the document loads
     yoh.initialize = function()
