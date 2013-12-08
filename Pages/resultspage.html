@@ -41,11 +41,11 @@
     </tbody>
 </table>
 
-<table id="box-table-a" style="float: right" summary="Amazon Products">
+<table id="box-table-b" style="float: right" summary="Amazon Products">
     <thead>
         <tr>
             <th></th>
-            <th>Recommendation by Interests or Hobbies</th>
+            <th>Recommendation by Personalities</th>
             <th></th>
         </tr>
         <tr>
@@ -55,15 +55,16 @@
         </tr>
     </thead>
     <tbody>
+                
+        <?php for ($i = 0; $i < 10; $i++): ?>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><?php echo $KeyItems$KeyItems[0][0][$i] ?></td>
+            <td><?php echo $KeyItems$KeyItems[1][0][$i] ?></td>
+            <td><?php echo $KeyItems$KeyItems[2][0][$i] ?></td>
         </tr>
     </tbody>
 </table>
-        <?php
-        for ($i = 0; $i < 10; $i++)
+        <?php for ($i = 0; $i < 10; $i++)
         { 
             echo("<div>
                 <a href=\"stores.html\">" . $KeyItems[0][0][$i] . "</a>\n" .  $KeyItems[1][0][$i] .  "\n\$" 
@@ -71,7 +72,6 @@
                 </div>");
         }
 
-        print_r("<br><br><br><br><br>");
         for ($i = 0; $i < 10; $i++)
         { 
             echo("<div>

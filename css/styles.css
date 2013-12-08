@@ -54,6 +54,7 @@ ul.tagit {
 #box-table-a th
 {
     font-size: 13px;
+    text-align: center;
     font-weight: normal;
     padding: 8px;
     background: #b9c9fe;
@@ -65,6 +66,7 @@ ul.tagit {
 {
     padding: 8px;
     background: #e8edff; 
+    text-align: center;
     border-bottom: 1px solid #fff;
     color: #669;
     border-top: 1px solid transparent;
@@ -72,8 +74,42 @@ ul.tagit {
 #box-table-a tr:hover td
 {
     background: #d0dafd;
-    font-family: arvo;
     color: #339;
+}
+
+#box-table-b
+{
+    font-family: arvo;
+    font-size: 12px;
+    margin: 45px;
+    width: 480px;
+    text-align: center;
+    border-collapse: collapse;
+}
+#box-table-b th
+{
+    font-size: 13px;
+    font-weight: normal;
+    text-align: center;
+    padding: 8px;
+    background: #fdb9c9;
+    border-top: 4px solid #fea9bb;
+    border-bottom: 1px solid #fff;
+    color: #039;
+}
+#box-table-b td
+{
+    padding: 8px;
+    background: #ffe7ec;
+    text-align: center; 
+    border-bottom: 1px solid #fff;
+    color: #996666;
+    border-top: 1px solid transparent;
+}
+#box-table-b tr:hover td
+{
+    background: #fdd0d9;
+    color: #993232;
 }
 
 html, body 
