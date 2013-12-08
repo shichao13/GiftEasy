@@ -1,0 +1,140 @@
+<html> 
+<head>
+  <script type="text/javascript">    
+    //declare namespace
+    var yoh = {};
+    
+    //array to hold yelp markers
+    var yelp = [];
+
+    //trace function for debugging
+    function trace(message) 
+    { 
+        if (typeof console != 'undefined') 
+        {
+            console.log(message);
+        }
+    }
+    
+    //function to get data from YELP
+    yoh.getYelp = function(term)
+    {
+      $.getJSON('http://api.yelp.com/v2/search?limit=5&lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+'term=+document.getElementById("term")',
+          function(data)
+          {
+              $.each(data.businesses, function(i,item){
+                  trace(item);
+                  infowindowcontent = '<strong>'+item.name+'</strong><br>';
+                  infowindowcontent += '<img src="'+item.photo_url+'"><br>';
+                  infowindowcontent += '<a href="'+item.url+'" target="_blank">see it on yelp</a>';
+                  
+                  yoh.createYelpMarker(i,item.latitude,item.longitude,item.name, infowindowcontent);
+              });                         
+          }
+      );
+    }
+
+    //Function that gets run when the document loads
+    yoh.initialize = function()
+    {
+      yoh.getYelp('basketball'+' store');
+    }
+  </script>
+</head>
+
+<title>Yelp Search</title> 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
+<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+<script type="text/javascript" src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
+<script type="text/javascript">
+var auth = { 
+  //
+  // Update with your auth tokens.
+  //
+  consumerKey: "E2_7dmQUi4vdRUhTawnE1g", 
+  consumerSecret: "XOxn5kI0jP4b1tlnpU8DW_V8dKs",
+  accessToken: "FmC9Hf29PramokOZnuE5WdbHbnUEWmsv",
+  accessTokenSecret: "7M1Mq3vUaDm_X3z0nT0SqfEKBsc",
+  serviceProvider: { 
+    signatureMethod: "HMAC-SHA1"
+  }
+};
+
+var terms = KEYTERM;
+var near = LOCATION;
+
+var accessor = {
+  consumerSecret: auth.consumerSecret,
+  tokenSecret: auth.accessTokenSecret
+};
+
+parameters = [];
+parameters.push(['term', terms]);
+parameters.push(['location', near]);
+parameters.push(['callback', 'cb']);
+parameters.push(['oauth_consumer_key', auth.consumerKey]);
+parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
+parameters.push(['oauth_token', auth.accessToken]);
+parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
+
+var message = { 
+  'action': 'http://api.yelp.com/v2/search',
+  'method': 'GET',
+  'parameters': parameters 
+};
+
+OAuth.setTimestampAndNonce(message);
+OAuth.SignatureMethod.sign(message, accessor);
+
+var parameterMap = OAuth.getParameterMap(message.parameters);
+parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+console.log(parameterMap);
+
+$.ajax({
+  'url': message.action,
+  'data': parameterMap,
+  'cache': true,
+  'dataType': 'jsonp',
+  'jsonpCallback': 'cb',
+  'success': function(data, textStats, XMLHttpRequest) {
+    console.log(data);
+    var output = prettyPrint(data);
+    $("body").append(output);
+  }
+});
+</script>
+</head> 
+
+
+<body>
+<?php
+
+$yelpstring = file_get_contents("http://api.yelp.com/business_review_search?category=bars&lat=".$latitude."&long=".$longitude."&radius=25&num_biz_requested=100&ywsid=ynoYeq0HNwWfPKFRqK-5qg", true); 
+ 
+$obj = json_decode($yelpstring);// Convert JSON from yelp return string
+ 
+ 
+  foreach($obj->businesses as $business):
+      echo "<img border=0 src='".$business->photo_url."'><br/>";
+      echo $business->name."<br/>";
+      echo $business->address1."<br/>";
+ 
+      if( $business->address2 ){
+         echo $business->address2."<br/>";
+      };
+ 
+      echo $business->city ."<br/>";
+      echo $business->state ."<br/>";
+      echo $business->zip ."<br/>";
+      echo $business->latitude ."<br/>";
+      echo $business->longitude ."<br/>";
+ 
+      echo "<hr>";
+  endforeach;
+
+?>
+
+
+</body>
+</html>

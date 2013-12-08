@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="/css/bootstrap-theme.min.css" rel="stylesheet"/>
+        <link href="/css/styles.css" rel="stylesheet"/>
+
+        <?php if (isset($title)): ?>
+            <title>Gift Easy: <?= htmlspecialchars($pagetitle) ?></title>
+        <?php else: ?>
+            <title>Gift Easy</title>
+        <?php endif ?>
+
+        <script src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/scripts.js"></script>
+        <! Aligns table text to the left.>
+        <style>
+            td
+            {
+                text-align:left;
+            }
+        </style>
+    </head>
+
+    <body>
+        <form action="/Pages/stores1.html" method="post">
+            <! Take a text input for symbol.>
+            <div class="form-group">
+                <input autofocus class="form-control" name="term" placeholder="Search Term" type="text"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Yelp!</button>
+            </div>
+        </form>
+    </body>
+</html>
