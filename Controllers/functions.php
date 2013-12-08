@@ -287,9 +287,9 @@ function OldItemSearch($SearchIndex, $Keywords, $j)
     
     // Bugtesting Print Function
     //print_r($relevancexml[$i]->Items->Item->OfferSummary->LowestNewPrice->FormattedPrice);
-    $test = array("Hello", "No");
-    print_r((int)$test);
-    print_r("<br>MICHAELMAHELLO<br>");
+    //$test = array("Hello", "No");
+    //print_r((int)$test);
+    //print_r("<br>MICHAELMAHELLO<br>");
 
     // Create a second response with the sort on bestseller instead
     $params['Sort'] = $Sort;
@@ -537,8 +537,9 @@ function MultiNodeSearch($Ids)
         }
         else
         {
-          $ItemId = $ItemId . (string)$returnresult->ASIN);
+          $ItemId = $ItemId . "," . (string)$returnresult->ASIN;
         }
+      }
 
         // extra parameters for this request
         $params['ItemId'] = $ItemId;
@@ -550,13 +551,13 @@ function MultiNodeSearch($Ids)
         $fullxml = simplexml_load_string($response);
 
         // Convert to current for similar syntax across this file
-        $current = $fullxml->Items->Item;
-
-    		// Finding all the information we need
-    		array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
-			  array_push($output['Image'], (string)$current->SmallImage->URL);
-			  array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
-    	}
+        foreach($fullxml->Items->Item as $current)
+        {
+    		  // Finding all the information we need
+    		  array_push($output['Department'], (string)$current->ItemAttributes->ProductGroup);
+			    array_push($output['Image'], (string)$current->SmallImage->URL);
+			    array_push($output['Price'], (string)$current->OfferSummary->LowestNewPrice->FormattedPrice);
+    	  }
 
     	// Overall information
     	array_push($output['Numbers'], $counter);
