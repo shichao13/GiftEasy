@@ -1,0 +1,18 @@
+“User’s Manuel”
+ 
+Seungkwan Baek, Allen Chen, Michael Ma
+ 
+Purpose: This website was created to help pick out gifts for the special someone on a special occasion.
+
+At the home page, put in descriptions of the person whom you are giving the gift to. For example, if you want to give it to your girlfriend, describe her hobbies, interests, etc. You can put in as little or much as you want to.
+-Interests or Hobbies: Put at most 3 interests or hobbies of the person. We have put some examples such as music or tennis on the autocomplete to suggest users what kinds of items to input. Press enter after each entry (so that space is allowed in the item name; i.e. sky diving). You can click ‘x’ or backspace to delete the term. After 3 items, the search bar no longer allows you to put any more terms.
+-Gender: Pick either female or male
+-Age: We have put few age groups to distinguish the age level of the person who is receiving the gift. 
+-Relationship to you
+-Personality Trait
+	
+	After pressing the search button, you arrive the results page. Clicking the logo allows you to go back to the home page. You have two tables. The blue table lists 10 items calculated from the person’s interests or hobbies. The red table lists 10 items calculated from the person’s personality and relationship to you. The items have been generated from the catalogue at Amazon.com. Click on the item to see the stores near you who carry the similar item. You’ll be prompted to type in your zipcode.
+
+	At the store page, a list of ten stores near you who carry the similar item pops up. It will show you the name, address, and rating of each store (populated by Yelp.com). The right side of the page shows you a map (Google Maps) with 10 Yelp markers populated around the location you have input. Clicking on each Yelp markers will generate the image of the store, its name, and a link to direct you to Yelp. 
+
+
