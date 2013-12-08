@@ -489,8 +489,6 @@ function MultiNodeSearch($Ids)
     $output['Results'] = array();
     $output['NodeId'] = array();
 
-    print_r($Ids);
-    print_r("MICHAELMA");
     foreach($Ids as $Node)
     {
     	// Counter for number of items
@@ -516,6 +514,12 @@ function MultiNodeSearch($Ids)
 
       // For the for loop, we want to use ItemLookup instead
       $params['Operation'] = "ItemLookup";
+
+      // Also do not want to generate an error with browse node ID
+      if(isset($params['BrowseNodeId']))
+      {
+        unset($params['BrowseNodeId']);
+      }
 
     	foreach ($fullxml->BrowseNodes->BrowseNode->TopSellers->TopSeller as $returnresult)
     	{
@@ -771,27 +775,29 @@ function PullNodeId($trait, $person, $NodeMap)
       if ((string)$NodeMap['Name'][$i] == $trait)
       {
         $index = $i;
-        print_r($i);
       }
     }
   }
 
   $output = array();
 
-  // Filling the array. If an earlier one is 0, a later one is too, so we use else ifs
+  // Filling the output array.
   if ($NodeMap['First'][$index] != 0)
   {
     array_push($output, $NodeMap['First'][$index]);
   }
-  else if ($NodeMap['Second'][$index] != 0)
+  
+  if ($NodeMap['Second'][$index] != 0)
   {
     array_push($output, $NodeMap['Second'][$index]);
   }
-  else if ($NodeMap['Third'][$index] != 0)
+  
+  if ($NodeMap['Third'][$index] != 0)
   {
     array_push($output, $NodeMap['Third'][$index]);
   }
-  else if ($NodeMap['Fourth'][$index] != 0)
+  
+  if ($NodeMap['Fourth'][$index] != 0)
   {
     array_push($output, $NodeMap['Fourth'][$index]);
   }
