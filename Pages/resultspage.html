@@ -6,7 +6,7 @@
 <!--[if gt IE 9]><!--> 
 <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-
+    <!--Calling jquery Files and css files -->
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -17,10 +17,12 @@
 </head>
 
 <body style="text-align: center;">
+    <!--Clicking the logo redirects to the home page -->
     <a href="http://www.gifteasy.net/Pages/stores.html">
     <img border="0" src="http://www.gifteasy.net/Pages/giftlogo.gif" alt="Logo" width="150" height="188"></a>
     <p class="italic">"Bro, do you even gift?"</p>
         
+<!--Table for recommendation by hobbies and interests-->
 <table id="box-table-a" style="float: left" summary="Amazon Products">
     <thead>
         <tr>
@@ -36,7 +38,7 @@
     </thead>
     <tbody>
         <?php 
-        
+        //iterates through the KeyItems found on Amazon and iterate through image, name, and price
         $Formatted = CondenseOutput($KeyItems);
         for ($j = 0; $j < count($Formatted['Title']); $j++)
         {
@@ -46,11 +48,11 @@
                 print_r('<td>'.$Formatted['Price'][$j] .'</td>');
                 print_r('</tr>');
         }
-
         ?>
     </tbody>
 </table>
 
+<!--Table for recommendation by personality traits-->
 <table id="box-table-b" style="float: right" summary="Amazon Products">
     <thead>
         <tr>
@@ -66,7 +68,7 @@
     </thead>
     <tbody>
        <?php 
-        
+        //iterates through the nodes of items found on Amazon and iterate through image, name, and price
         $NFormatted = CondenseOutput($NodeItems);
         for ($j = 0; $j < count($Formatted['Title']); $j++)
         {

@@ -11,6 +11,7 @@
 
     <title>Gift Easy</title>
 
+    <!--Calling jquery Files and css files -->
     <script src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery.tagger.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -21,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
     <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
     <script>
+        //sample autocomplete terms on the search bar; space is allowed on the search bar
         $(function(){
             var sampleTags = ['golf', 'sports', 'tennis', 'music', 'piano', 'doll', 'lego', 'bike', 'ball', 'swimming', 'hiking', 'cooking', 'cello', 'clarinet', 'singing', 'book', 'reading', 'game', 'electronics', 'mp3', 'movies'];
             //-------------------------------
@@ -47,13 +49,18 @@
     
     <form action="/Controllers/giftsuggestion.php" method="post">
             <div class="form-group">
+                <!--a search bar with tags-->
                 <h3>Interests or Hobbies</h3>
                 <input id="allowSpacesTags" autofocus style="input" class="form-control" name="keywords">
                 <br/>
                 <br/>
+                <!--radio buttons to indicate gender-->
+                <div>
                 <input name="gender" type="radio" value="F"/><h3>Female</h3>
                 <input name="gender" type="radio" value="M"/><h3>Male</h3>
+                <div>
                 <br/>
+                <!--scroll select bar to select age-->
                 <h3>Age:</h3>
                 <select name="age">
                     <option value=""></option>
@@ -65,6 +72,7 @@
                     <option value="6">65+</option>
                 </select>
                 <br/>
+                <!--scroll select bar to select relationship of the person to you-->
                 <h3>Relationship to You:</h3>
                 <select name="relationship">
                     <option value=""></option>
@@ -78,6 +86,7 @@
                 <br/>
                 <br/>
                 <br/>
+                <!--scroll select bar to select personal traits of the person-->
                 <h3>Choose a personality trait that describes the receiver:</h3>
                 <select name="traits">
                     <option value="Active">Active/Athletic</option>
@@ -100,6 +109,7 @@
             </div>
                 <br/>
                 <br/>
+            <!--submit button-->
             <form class="form-search input-append" id="form">
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
