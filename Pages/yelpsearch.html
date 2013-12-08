@@ -20,7 +20,7 @@
     //function to get data from YELP
     yoh.getYelp = function(term)
     {
-      $.getJSON('http://api.yelp.com/business_review_search?lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&limit=20&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+term+'&callback=?',
+      $.getJSON('http://api.yelp.com/v2/search?limit=5&lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term='+'term=+document.getElementById("term")',
           function(data)
           {
               $.each(data.businesses, function(i,item){
@@ -108,14 +108,34 @@ $.ajax({
 </head> 
 
 
-<body onload="yoh.initialize()">
-    <div id="panel">
-        <form action=.getJSON"http://api.yelp.com/v2/search?limit=5&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term=&location=" method="get">
-            <input name="find_desc" placeholder="product name" type="text"/>
-            <input name="find_loc" placeholder="address or zip code" type="text"/>
-            <br/>
-            <input type="submit" value="Yelp Search" onclick="yoh.getYelp(yelp)"/>
-        </form>
-    </div>
+<body>
+<?php
+
+$yelpstring = file_get_contents("http://api.yelp.com/business_review_search?category=bars&lat=".$latitude."&long=".$longitude."&radius=25&num_biz_requested=100&ywsid=ynoYeq0HNwWfPKFRqK-5qg", true); 
+ 
+$obj = json_decode($yelpstring);// Convert JSON from yelp return string
+ 
+ 
+  foreach($obj->businesses as $business):
+      echo "<img border=0 src='".$business->photo_url."'><br/>";
+      echo $business->name."<br/>";
+      echo $business->address1."<br/>";
+ 
+      if( $business->address2 ){
+         echo $business->address2."<br/>";
+      };
+ 
+      echo $business->city ."<br/>";
+      echo $business->state ."<br/>";
+      echo $business->zip ."<br/>";
+      echo $business->latitude ."<br/>";
+      echo $business->longitude ."<br/>";
+ 
+      echo "<hr>";
+  endforeach;
+
+?>
+
+
 </body>
 </html>
