@@ -106,21 +106,16 @@ $.ajax({
 });
 </script>
 </head> 
-<body>
 
 
-        <h1>Yelp Search</h1>
-        <form action="https://api.yelp.com/v2/search?limit=5&term=&location=" method="get">
-            <input name="find_desc" type="text"/>
-            <input name="find_loc  " type="text"/>
+<body onload="yoh.initialize()">
+    <div id="panel">
+        <form action=.getJSON"http://api.yelp.com/v2/search?limit=5&ywsid=ynoYeq0HNwWfPKFRqK-5qg&term=&location=" method="get">
+            <input name="find_desc" placeholder="product name" type="text"/>
+            <input name="find_loc" placeholder="address or zip code" type="text"/>
             <br/>
-            <input type="submit" value="Yelp Search"/>
+            <input type="submit" value="Yelp Search" onclick="yoh.getYelp(yelp)"/>
         </form>
-
-print(name, rating_img_url, image_url); 
-
-
-
-
+    </div>
 </body>
 </html>
