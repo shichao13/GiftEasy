@@ -62,19 +62,15 @@
     </tbody>
 </table>
         <?php 
-        for ($i = 0; $i < 10; $i++)
-        { 
-                print_r("<img src=". $KeyItems[0]['Image'][$i] . ">");
-                print_r("<div> <a href=\"stores.html\">".  $KeyItems[0]['Title'][$i] ."</a><br>". "Price: " . $KeyItems[0]['Price'][$i] . "</div>");
-
-        }
-
-        for ($i = 0; $i < 10; $i++)
-        { 
-            echo("<div>
-                <a href=\"stores.html\">" . $KeyItems[0]['Image'][$i] . "</a>\n" .  $KeyItems[0]['Title'][$i] .  "\n" 
-                . $KeyItems[0]['Price'][$i] .
-                "</div>");
+        for ($j = 0; $j < count($KeyItems); $j++)
+        {
+            for ($i = 0; $i < 10; $i++)
+            { 
+                print_r("<img src=". $KeyItems[$j]['Image'][$i] . ">");
+                print_r("<div> <a href=\"stores.html\">".  
+                        $KeyItems[$j]['Title'][$i] ."</a><br>". "Price: " 
+                        . $KeyItems[$j]['Price'][$i] . "</div>");
+            }
         }
         ?>
 </body>
