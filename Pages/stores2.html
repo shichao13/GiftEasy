@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+   
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0px; padding: 0px }
+        #map_canvas { height: 100% }
+    </style>
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="http://yohman.bol.ucla.edu/jquery-1.5.2.min.js"></script>
+    
+    <script type="text/javascript">    
+        //declare namespace
+        var yoh = {};
+       
+        //declare map
+        var map;
+       
+        //array to hold yelp markers
+        var yelp = [];
+
+        //defines bounding box of all locations
+        var bounds;
+
+        //info window
+        var infowindow = new google.maps.InfoWindow();
+       
+        //trace function for debugging
+        function trace(message)
+        {
+            if (typeof console != 'undefined')
+            {
+                console.log(message);
+            }
+        }
+       
+        //toggle array layers on/off
+        yoh.toggleArrayLayer = function(arraylayer)
+        {
+            if (arraylayer) {
+                for (i in arraylayer) {                
+                    if (arraylayer[i].getVisible() == true)
+                    {
+                        arraylayer[i].setMap(null);
+                        arraylayer[i].visible = false;
+                    }
+                    else
+                    {
+                        arraylayer[i].setMap(map);
+                        arraylayer[i].visible = true;
+                    }
+                }
+            }
+        }
+       
+        //Function to create yelp marker
+        yoh.createYelpMarker = function(i,latitude,longitude,title, infowindowcontent)
+        {
+            var markerLatLng = new google.maps.LatLng(latitude,longitude);  
+           
+            //extent bounds for each stop and adjust map to fit to it
+            bounds.extend(markerLatLng);
+            map.fitBounds(bounds);
+       
+            yelp[i] = new google.maps.Marker({
+                position: markerLatLng,
+                map: map,
+                title: title,
+                icon: 'http://yohman.bol.ucla.edu/images/yelp.png'
+            });
+       
+            //add an onclick event
+            google.maps.event.addListener(yelp[i], 'click', function() {
+                infowindow.setContent(infowindowcontent);
+                infowindow.open(map,yelp[i]);
+            });
+        }
+       
+        //function to get data from YELP
+        yoh.getYelp = function(term)
+        {
+            bounds = new google.maps.LatLngBounds ();
+            $.getJSON('http://api.yelp.com/business_review_search?lat='+map.getCenter().lat()+'&long='+map.getCenter().lng()+'&limit=20&ywsid=8ihdSYo6XH1jleTZ0MXoyg&term='+term+'&callback=?',
+                function(data)
+                {
+                    $.each(data.businesses, function(i,item){
+                        trace(item);
+                        infowindowcontent = '<strong>'+item.name+'</strong><br>';
+                        infowindowcontent += '<img src="'+item.photo_url+'"><br>';
+                        infowindowcontent += '<a href="'+item.url+'" target="_blank">see it on yelp</a>';
+                       
+                        yoh.createYelpMarker(i,item.latitude,item.longitude,item.name, infowindowcontent);
+                    });                        
+                }
+            );
+        }
+
+        //Function that gets run when the document loads
+        yoh.initialize = function()
+        {
+            var latlng = new google.maps.LatLng(34.0194543,-118.4911912);
+            var myOptions = {
+                zoom: 12,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+           
+            //Sample call for yelp data for cafe's
+            yoh.getYelp('cafe');
+        }
+    </script>
+</head>
+
+<body onload="yoh.initialize()">
+    <!-- side panel div container -->
+    <div style="position:absolute; width:380px; height: 100%; overflow:auto; float:left; padding-left:10px; padding-right:10px;">
+        <h1>Yelp API</h1>
+        <input type="checkbox" id="toggleFlickr" onClick="yoh.toggleArrayLayer(yelp)" checked> yelp layer
+    </div>
+    
+    <div>
+        <script type="text/javascript">  
+          var yelpdata = yoh.getYelp('cafe');
+          window.print(yelpdata);
+        </script>  
+    </div>
+
+    <!-- map div container 
+    <div id="map_canvas" style="height:100%; margin-left:400px;"></div>
+    -->
+</body>
+</html>
