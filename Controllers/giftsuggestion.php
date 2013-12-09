@@ -42,7 +42,7 @@ if (isset($UserData['Keywords']))
     {
       $av = ord($chars[$i]);
 
-      if (!($av == 32 || ($av > 47 && $av < 58) || ($av > 96 && $av < 123)))
+      if (!($av == 32 || ($av > 47 && $av < 58) || ($av > 64 && $av < 91) || ($av > 96 && $av < 123)))
       {
         print_r("ERROR: Nonstandard User Input Character");
         $safe = 0;
