@@ -1,5 +1,8 @@
 <?php
 
+// TODO:
+// Implement amazon link directly - we get 15 percent if it works out
+
 // Header file to use if images are being displayed here.
 //header('Content-Type: image/jpeg');
 
@@ -44,7 +47,7 @@ if (isset($UserData['Keywords']))
 
       if (!($av == 32 || ($av > 47 && $av < 58) || ($av > 64 && $av < 91) || ($av > 96 && $av < 123)))
       {
-        print_r("ERROR: Nonstandard User Input Character");
+        print_r("Try again; input can only be alphabetic.");
         $safe = 0;
       }
     }
